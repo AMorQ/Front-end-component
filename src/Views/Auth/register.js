@@ -1,23 +1,18 @@
 // this approach Allows switching between login and register forms without page navigation
 
-import { createNewUser } from "./API/userAPI.js";
+import { createNewUser } from "../../API/userAPI.js";
 // import { setupPasswordToggle } from "./UTILS/utils.js";
+
+// FIXME: arreglar userPassword, ahor mismo está creando otro elemento en MockAPI
 // TODO: fix this function and it utilisation here
 // TODO: FIX password and confirm password validations
-// TODO: check userAPI reponsibity (is the user being saved correctly?)
+
 
 // Handle register link click
 // NOTE:  difference between DOMContentLoaded and rest of types?
-// NOTE:  should this be in another file?
-document.addEventListener("DOMContentLoaded", () => {
-  const registerLink = document.getElementById("register-link");
-  
-  registerLink.addEventListener("click", (event) => {
-    event.preventDefault(); // Prevent navigation
-    renderRegisterForm(); // Call function from register.js to render the form
-  });
-});
 
+
+// FIXME: this shouldnt be done with innerHTML because of the input ?????????
 export function renderRegisterForm() {
   // Clear the current content and render register form
   const container = document.querySelector('.log-container');
@@ -26,21 +21,21 @@ export function renderRegisterForm() {
     <div class="reg-header">
       <h1>Register</h1>
     </div>
-
+    <!-- the autocomplete attributes are set to help browsers autofill the form -->
     <form id="register-form">
       <div class="form-group">
-        <input type="text" placeholder="Full Name" id="register-name" required />
+        <input type="text" placeholder="Full Name" id="register-name" autocomplete="name" required />
       </div>
       
       <div class="form-group">
-        <input type="email" placeholder="E-mail" id="register-email" required />
+        <input type="email" placeholder="E-mail" id="register-email" autocomplete="email" required />
       </div>
       
       <div class="form-group password">
-        <input type="password" placeholder="Password" id="register-password" required />
+        <input type="password" placeholder="Password" id="register-password" autocomplete="new-password" required />
       </div>
-      <div class="form-group password" "toggle-register-confirm-password" id="register-confirm-password">
-        <input type="password" placeholder="Confirm Password" id="register-confirm-password" required />
+      <div class="form-group password">
+        <input type="password" placeholder="Confirm Password" id="register-confirm-password" autocomplete="new-password" required />
       </div>
       
       <button type="submit" class="btn">Register</button>
@@ -49,6 +44,7 @@ export function renderRegisterForm() {
     <p class="reg-p">
       <a href="auth.html" id="login-link" class="reg-link">Back to Login</a>
     </p>
+    <!-- this redirects to auth.html but so slowly...FIXME: maybe better erasing auth.html content and injecting or is it just the same than calling auth.html
   `;
   
   // Add event listeners for the new form
@@ -113,73 +109,7 @@ export function renderRegisterForm() {
   });
 }
 
-// --------------- garbagge code -----------------
-// This code is not used, but it was part of the previous implementation
-
-/**
 
 
-export function renderRegisterForm() {
-  // Clear the current content and render register form
-  const container = document.querySelector('.log-container');
-  
-  container.innerHTML = `
-    <div class="log-header">
-      <h1>Register</h1>
-    </div>
 
-    <form id="register-form">
-      <div class="form-group">
-        <input type="text" placeholder="Full Name" id="register-name" required />
-      </div>
 
-      <div class="form-group">
-        <input type="email" placeholder="E-mail" id="register-email" required />
-      </div>
-
-      <div class="form-group password">
-    <form id="register-form">
-      <div class="form-group">
-        <input type="text" placeholder="Full Name" id="register-name" required />
-      </div>
-      
-      <div class="form-group">
-        <input type="email" placeholder="E-mail" id="register-email" required />
-      </div>
-      
-      <div class="form-group password">
-        <input type="password" placeholder="Password" id="register-password" required />
-      </div>
-      
-      <button type="submit" class="btn">Register</button>
-    </form>
-    
-    <p class="reg-p">
-      <a href="#" id="login-link" class="reg-link">Back to Login</a>
-    </p>
-  `;
-  
-  // Add event listeners for the new form
-  setupRegisterFormHandlers();
-}
-
-function setupRegisterFormHandlers() {
-  // Handle register form submission
-  const registerForm = document.getElementById("register-form");
-  registerForm.addEventListener("submit", handleRegisterSubmit);
-  
-  // Handle back to login link
-  const loginLink = document.getElementById("login-link");
-  loginLink.addEventListener("click", (event) => {
-    event.preventDefault();
-    location.reload(); // Reload to show login form again
-  });
-}
-
-function handleRegisterSubmit(event) {
-  event.preventDefault();
-  // Add your registration logic here
-  console.log("Register form submitted");
-}
-
-*/
