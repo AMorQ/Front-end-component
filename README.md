@@ -135,4 +135,12 @@ si usario loggeado
 
 
 # File System Structure
+```
+├───public
+└───src
+    ├───API
+    ├───Styles
+    ├───Utils
+    └───Views
+```
 
