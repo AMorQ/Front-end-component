@@ -1,0 +1,60 @@
+<!-- NOTE: - This is the authentication page. IN ITS LANDING VIEW, IT WILL RENDER THE LOGIN FORM -->
+<!-- TODO : only login button in the home page - IT WILL ALSO RENDER A BUTTON TO -->
+<!-- ACCESS THE REGISTER FORM IN CASE THE USER WOULDN'T HAVE AN ACCOUNT -->
+<!-- TODO:- Can I search in the MockAPI not fetching all the information from the DDBB?? -->
+<!-- TODO attention! why is it that I have to click twice to go to my index.html? -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Authentication</title>
+  </head>
+
+  <body>
+
+    <div class="log-container">
+      <div class="log-header">
+        <h1>Login</h1>
+      </div>
+
+      <form id="login-form">
+        <div class="form-group">
+          <input type="email" placeholder="e-mail" id="login-email" required />
+        </div>
+
+        <div class="form-group password">
+          <input
+            type="password"
+            placeholder="password"
+            id="login-password"
+            required
+          />
+          <button type="button" id="toggle-password">
+            <img id="eye-icon" alt="Show Password" />
+          </button>
+        </div>
+
+        <div class="form-group remember-me">
+          <input type="checkbox" id="remember-me" />
+          <label for="remember-me">Remember me</label>
+        </div>
+
+        <!-- Contenedor para mostrar mensaje de error -->
+        <div id="login-error" class="error-message"></div>
+
+        <button type="submit" class="btn">Login</button>
+      </form>
+
+      <p class="reg-p">
+        <a href="#" id="register-link" class="reg-link">Create new account</a> if you are
+        not registered yet
+        <!-- TODO: this links directly to the index.html without specifying? -->
+      </p>
+      <!-- <a href="./home" class="back-link">← Back to Movies</a> -->
+    </div>
+
+    <script type="module" src="auth.js"></script>
+
+  </body>
+</html>
