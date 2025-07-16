@@ -191,3 +191,66 @@ function renderPrivateProfile(user) {
   privateSection.appendChild(productsContainer);
   profileContent.appendChild(privateSection);
 }
+
+function createProductCard(product, isPrivate = false) {
+  const card = document.createElement('div');
+  card.className = 'product-card';
+
+  const img = document.createElement('img');
+  img.src = product.image || 'https://via.placeholder.com/200';
+  img.alt = product.name;
+
+  const name = document.createElement('h3');
+  name.textContent = product.name;
+
+  const desc = document.createElement('p');
+  desc.textContent = product.description;
+
+  const price = document.createElement('strong');
+  price.textContent = `€${product.price}`;
+
+  card.appendChild(img);
+  card.appendChild(name);
+  card.appendChild(desc);
+  card.appendChild(price);
+
+  if (isPrivate) {
+    const actions = document.createElement('div');
+    actions.className = 'product-actions';
+
+    const editBtn = document.createElement('button');
+    editBtn.className = 'btn small';
+    editBtn.textContent = 'Edit';
+    // editBtn.addEventListener('click', () => editProduct(product.id));
+
+    const deleteBtn = document.createElement('button');
+    deleteBtn.className = 'btn small danger';
+    deleteBtn.textContent = 'Delete';
+    // deleteBtn.addEventListener('click', () => deleteProduct(product.id));
+
+    actions.appendChild(editBtn);
+    actions.appendChild(deleteBtn);
+    card.appendChild(actions);
+  }
+
+  return card;
+}
+
+function setupEventListeners() {
+  // Close modals when clicking X
+  closeModalButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      editModal.style.display = 'none';
+      addProductModal.style.display = 'none';
+    });
+  });
+
+  // Close modals when clicking outside
+  window.addEventListener('click', (event) => {
+    if (event.target === editModal) {
+      editModal.style.display = 'none';
+    }
+    if (event.target === addProductModal) {
+      addProductModal.style.display = 'none';
+    }
+  });
