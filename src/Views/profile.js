@@ -254,3 +254,107 @@ function setupEventListeners() {
       addProductModal.style.display = 'none';
     }
   });
+
+    // Edit profile form submission
+  editProfileForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    await handleProfileUpdate();
+  });
+
+  // Add product form submission
+  addProductForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    await handleAddProduct();
+  });
+}
+
+function openEditModal(user) {
+  document.getElementById('edit-name').value = user.userName;
+  document.getElementById('edit-location').value = user.location || '';
+  document.getElementById('edit-image').value = user.profileImage || '';
+  editModal.style.display = 'block';
+}
+
+async function handleProfileUpdate() {
+  const name = document.getElementById('edit-name').value.trim();
+  const location = document.getElementById('edit-location').value.trim();
+  const image = document.getElementById('edit-image').value.trim();
+
+  if (!name || !location) {
+    showError('Name and location are required');
+    return;
+  }
+
+  try {
+    const updatedUser = {
+      ...currentUser,
+      userName: name,
+      location: location,
+      profileImage: image || currentUser.profileImage
+    };
+
+    // Update in API
+    await updateUser(currentUser.id, updatedUser);
+
+    // Update local storage
+    if (localStorage.getItem('currentUser')) {
+      localStorage.setItem('currentUser', JSON.stringify(updatedUser));
+    } else if (sessionStorage.getItem('currentUser')) {
+      sessionStorage.setItem('currentUser', JSON.stringify(updatedUser));
+    }
+
+    // Update UI
+    currentUser = updatedUser;
+    renderProfile(currentUser);
+    editModal.style.display = 'none';
+  } catch (error) {
+    console.error('Error updating profile:', error);
+    showError('Failed to update profile. Please try again.');
+  }
+}
+
+async function handleAddProduct() {
+  const name = document.getElementById('product-name').value.trim();
+  const description = document.getElementById('product-description').value.trim();
+  const price = parseFloat(document.getElementById('product-price').value);
+  const image = document.getElementById('product-image').value.trim();
+
+  if (!name || !description || isNaN(price)) {
+    showError('Please fill all required fields with valid data');
+    return;
+  }
+
+  try {
+    const newProduct = {
+      name,
+      description,
+      price: price.toFixed(2),
+      image: image || 'https://via.placeholder.com/200'
+    };
+
+    // In a real app, you would save this to your API
+    // For now, we'll just add it to the local products array
+    if (!currentUser.products) {
+      currentUser.products = [];
+    }
+    currentUser.products.push(newProduct);
+
+    // Update UI
+    renderPrivateProfile(currentUser);
+    addProductModal.style.display = 'none';
+    addProductForm.reset();
+  } catch (error) {
+    console.error('Error adding product:', error);
+    showError('Failed to add product. Please try again.');
+  }
+}
+
+function logout() {
+  logoutUser();
+  window.location.href = '/auth.html';
+}
+
+function showError(message) {
+  // In a real app, you might have a dedicated error display area
+  alert(message);
+}
