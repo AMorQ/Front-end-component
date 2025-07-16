@@ -130,3 +130,64 @@ function renderPublicProfile(user) {
   publicSection.appendChild(productsContainer);
   profileContent.appendChild(publicSection);
 }
+
+function renderPrivateProfile(user) {
+  // Clear previous content
+  while (profileContent.firstChild) {
+    profileContent.removeChild(profileContent.firstChild);
+  }
+
+  // Create private profile elements
+  const privateSection = document.createElement('div');
+  privateSection.className = 'private-profile';
+
+  const actionsHeader = document.createElement('h2');
+  actionsHeader.textContent = 'Your Artisan Dashboard';
+
+  const actionsContainer = document.createElement('div');
+  actionsContainer.className = 'action-buttons';
+
+  const editProfileBtn = document.createElement('button');
+  editProfileBtn.className = 'btn';
+  editProfileBtn.textContent = 'Edit Profile';
+  editProfileBtn.addEventListener('click', () => openEditModal(user));
+
+  const addProductBtn = document.createElement('button');
+  addProductBtn.className = 'btn';
+  addProductBtn.textContent = 'Add Product';
+  addProductBtn.addEventListener('click', () => addProductModal.style.display = 'block');
+
+  const logoutBtn = document.createElement('button');
+  logoutBtn.className = 'btn logout';
+  logoutBtn.textContent = 'Logout';
+  logoutBtn.addEventListener('click', logout);
+
+  actionsContainer.appendChild(editProfileBtn);
+  actionsContainer.appendChild(addProductBtn);
+  actionsContainer.appendChild(logoutBtn);
+
+  const productsHeader = document.createElement('h2');
+  productsHeader.textContent = 'Your Products';
+
+  const productsContainer = document.createElement('div');
+  productsContainer.className = 'products-grid';
+
+  // Add products if available
+  if (user.products && user.products.length > 0) {
+    user.products.forEach(product => {
+      const productCard = createProductCard(product, true);
+      productsContainer.appendChild(productCard);
+    });
+  } else {
+    const noProducts = document.createElement('p');
+    noProducts.textContent = 'You haven\'t added any products yet.';
+    productsContainer.appendChild(noProducts);
+  }
+
+  // Append all elements
+  privateSection.appendChild(actionsHeader);
+  privateSection.appendChild(actionsContainer);
+  privateSection.appendChild(productsHeader);
+  privateSection.appendChild(productsContainer);
+  profileContent.appendChild(privateSection);
+}
