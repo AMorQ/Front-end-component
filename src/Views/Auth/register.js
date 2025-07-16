@@ -13,9 +13,19 @@ import { createNewUser } from "../../API/userAPI.js";
 
 
 // FIXME: this shouldnt be done with innerHTML because of the input ?????????
+// insertAdjacentHTML is safer than innerHTML
+// DANGEROUS - if userInput contains malicious scripts
+// container.innerHTML = `<input value="${userInput}">`;
+// SAFER - use insertAdjacentHTML
+// container.insertAdjacentHTML('beforeend', `<input value="${userInput}">`);
+
+
 export function renderRegisterForm() {
   // Clear the current content and render register form
   const container = document.querySelector('.log-container');
+  
+  // Security: Clear existing content first to prevent any potential issues
+  container.textContent = '';
   
   container.innerHTML = `
     <div class="reg-header">
@@ -25,6 +35,9 @@ export function renderRegisterForm() {
     <form id="register-form">
       <div class="form-group">
         <input type="text" placeholder="Full Name" id="register-name" autocomplete="name" required />
+      </div>
+      <div class="form-group">
+        <input type="text" placeholder="User Name" id="register-username" autocomplete="username" required />
       </div>
       
       <div class="form-group">
@@ -91,7 +104,6 @@ export function renderRegisterForm() {
     }
 
     if (password !== confirmPassword) {
-        // FIXME: Implement confirm password validation. RIGHT NOW IT IS NOT WORKING
       alert("Passwords do not match.");
       validations = false;
     }
@@ -108,6 +120,7 @@ export function renderRegisterForm() {
     }
   });
 }
+// I have to  introduce new validations to User Name (not full name)
 
 
 
