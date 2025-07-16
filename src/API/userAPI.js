@@ -35,7 +35,8 @@ export async function createNewUser(userData) {
       body: JSON.stringify({
         userName: userData.userName,
         userEmail: userData.userEmail,
-        password: userData.password,
+        password: userData.userPassword,
+
       }),
     });
     if (!response.ok) {
@@ -54,4 +55,7 @@ export async function createNewUser(userData) {
   } catch (error) {
     console.error("Create user error:", error);
   }
+
+}
+
 }

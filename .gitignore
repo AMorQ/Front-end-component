@@ -25,3 +25,8 @@ dist-ssr
 
 # Environment variables
 .env
+
+# Ignore specific markdown file
+Auth_README.md
+src/Components/*
+layout-editor-demo.html

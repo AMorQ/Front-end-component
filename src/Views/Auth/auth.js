@@ -94,3 +94,5 @@ export function logoutUser() {
   localStorage.removeItem("currentUser");
   sessionStorage.removeItem("currentUser");
 }
+
+
