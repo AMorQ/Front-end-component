@@ -59,3 +59,74 @@ async function loadProfile(userId) {
     showError('Failed to load profile. Please try again later.');
   }
 }
+
+async function loadSampleArtisanProfile() {
+  // For public view when not logged in
+  const sampleArtisan = {
+    id: 'sample-1',
+    userName: 'Sample Artisan',
+    userEmail: 'sample@artisan.com',
+    location: 'Barcelona',
+    artisan: true,
+    styles_applied: {},
+    products: await fetchProductImages('handmade')
+  };
+  
+  renderProfile(sampleArtisan);
+  renderPublicProfile(sampleArtisan);
+}
+
+function renderProfile(user) {
+  profileName.textContent = user.userName;
+  profileLocation.textContent = user.location || 'Location not specified';
+  
+  // Set a default image if none provided
+  profileImage.src = user.profileImage || 'https://via.placeholder.com/150';
+  profileImage.alt = `${user.userName}'s profile picture`;
+  
+  // Generate random rating for demo (1-5 stars)
+  const rating = Math.floor(Math.random() * 5) + 1;
+  profileRating.innerHTML = '★'.repeat(rating) + '☆'.repeat(5 - rating);
+}
+
+function renderPublicProfile(user) {
+  // Clear previous content
+  while (profileContent.firstChild) {
+    profileContent.removeChild(profileContent.firstChild);
+  }
+
+  // Create public profile elements
+  const publicSection = document.createElement('div');
+  publicSection.className = 'public-profile';
+
+  const bioSection = document.createElement('div');
+  bioSection.className = 'bio-section';
+  bioSection.innerHTML = `
+    <h2>About ${user.userName}</h2>
+    <p>${user.bio || 'This artisan hasn\'t added a bio yet.'}</p>
+  `;
+
+  const productsHeader = document.createElement('h2');
+  productsHeader.textContent = 'Products';
+
+  const productsContainer = document.createElement('div');
+  productsContainer.className = 'products-grid';
+
+  // Add products if available
+  if (user.products && user.products.length > 0) {
+    user.products.forEach(product => {
+      const productCard = createProductCard(product);
+      productsContainer.appendChild(productCard);
+    });
+  } else {
+    const noProducts = document.createElement('p');
+    noProducts.textContent = 'No products available yet.';
+    productsContainer.appendChild(noProducts);
+  }
+
+  // Append all elements
+  publicSection.appendChild(bioSection);
+  publicSection.appendChild(productsHeader);
+  publicSection.appendChild(productsContainer);
+  profileContent.appendChild(publicSection);
+}
