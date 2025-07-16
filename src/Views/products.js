@@ -1,7 +1,7 @@
 import { fetchProductImages } from '../API/apiProducts.js';
 
 function createBaseLayout() {
-  const app = document.getElementById('app'); //may change de div name
+  const app = document.getElementById('app'); //TO DO have to change the name
 
   app.innerHTML = `
     <input type="text" id="search" placeholder="Search products..." />
@@ -60,7 +60,7 @@ function setupEvents() { //filter
   });
 }
 
-//ADD click fuction for product details (plus product.js)
+//ADD click fuction for product details (plus detailsProduct.js). Same as details, by clicking the card
 
 //do not forget
 createBaseLayout();
