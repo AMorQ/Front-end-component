@@ -4,28 +4,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Handcrafted Catalog</title>
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="./src/Styles/product.css" />
 </head>
 <body>
-  
-  <!-- Filter/search -->
-  <input type="text" id="search" placeholder="Search products..." />
-  <button id="findBtn">Find</button>
-
-  <!-- Catalog container -->
-  <div id="product-list" class="catalog"></div>
-
-  <!-- Product card template -->
-  <template id="product-template">
-    <div class="product-card">
-      <img src="" alt="Product image" />
-      <h3 class="name"></h3>
-      <p class="description"></p>
-      <strong class="price"></strong>
-      <button>Add to cart</button>
-    </div>
-  </template>
-
+  <div id="app"></div> <!-- may change the name -->
   <script type="module" src="./src/Views/products.js"></script>
 </body>
 </html>

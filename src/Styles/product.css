@@ -1,0 +1,62 @@
+/* Is a mock, not the colours for the web */
+body {
+    display: flex;
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    background: gainsboro;
+    margin: 0;
+}
+
+
+input,
+button {
+    padding: 8px;
+    margin: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+button {
+    display: flex;
+    background-color: #c5bd8f;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #009578;
+}
+
+
+.catalog {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.product-card {
+    background: white;
+    border-radius: 8px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    height: 380px;
+    overflow: hidden;
+}
+
+.product-card img {
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+/* Name */
+.product-card .name {
+    font-weight: bold;
+    margin: 1
+}

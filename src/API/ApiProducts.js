@@ -3,8 +3,8 @@ const PEXELS_URL = 'https://api.pexels.com/v1/search';
 
 export async function fetchProductImages(query = 'handmade') {
   try {
-    const response = await fetch(`${PEXELS_URL}?query=${encodeURIComponent(query)}&per_page=12`, { //showing 12, should i change?? random??
- headers: {
+    const response = await fetch(`${PEXELS_URL}?query=${encodeURIComponent(query)}&per_page=12`, {
+      headers: {
         Authorization: API_KEY,
       },
     });
@@ -17,7 +17,7 @@ export async function fetchProductImages(query = 'handmade') {
 
     return data.photos.map(photo => ({
       name: query.charAt(0).toUpperCase() + query.slice(1),
-      description: 'Handcrafted product mockup',
+      description: photo.alt || 'Handcrafted product', // ??
       price: (Math.random() * 100 + 10).toFixed(2),
       image: photo.src.medium,
     }));
