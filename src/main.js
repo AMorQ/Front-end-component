@@ -57,3 +57,12 @@ document.addEventListener('DOMContentLoaded', () => {
   // Insert the navigation container at the beginning of the body
   document.body.insertBefore(navContainer, document.body.firstChild);
 });
+
+
+//footer imported from utils
+import { injectFooter } from './utils.js';
+
+document.addEventListener('DOMContentLoaded', () => {
+  injectFooter();
+
+});
