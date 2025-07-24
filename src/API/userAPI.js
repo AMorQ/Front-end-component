@@ -9,14 +9,15 @@ export async function getAllUsers() {
     const response = await fetch(url);
 
     if (!response.ok) {
-      throw new Error("error", error, response.status);
-    }
+      throw new Error(`HTTP error! status: ${response.status}`);
+    } // Added missing closing brace
 
     const data = await response.json();
 
     return data;
   } catch (error) {
     console.error(error);
+    throw error; // Re-throw to allow caller to handle the error
   }
 }
 
@@ -58,4 +59,4 @@ export async function createNewUser(userData) {
 
 }
 
-}
+
