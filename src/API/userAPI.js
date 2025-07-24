@@ -36,6 +36,7 @@ export async function createNewUser(userData) {
         userName: userData.userName,
         userEmail: userData.userEmail,
         password: userData.userPassword,
+
       }),
     });
     if (!response.ok) {
@@ -54,4 +55,7 @@ export async function createNewUser(userData) {
   } catch (error) {
     console.error("Create user error:", error);
   }
+
+}
+
 }
