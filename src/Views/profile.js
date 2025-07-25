@@ -1,6 +1,6 @@
-import { getCurrentUser, logoutUser } from "../Auth/auth.js";
-import { getAllUsers, updateUser } from "../../API/userAPI.js";
-import { fetchProductImages } from "../../API/ApiProducts.js";
+import { getCurrentUser, logoutUser } from "./Auth/auth.js";
+import { getAllUsers, updateUser } from "../API/userAPI.js";
+import { fetchProductImages } from "../API/ApiProducts.js";
 
 // DOM elements
 const profileName = document.getElementById('profile-name');

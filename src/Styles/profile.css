@@ -1,0 +1,13 @@
+body {
+    font-family: 'Arial', sans-serif;
+    background: gainsboro;
+    margin: 0;
+    padding: 0;
+    color: #333;
+}
+
+.profile-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
