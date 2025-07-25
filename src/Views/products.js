@@ -1,8 +1,14 @@
 import { fetchProductImages } from '../API/apiProducts.js';
+import { injectFooter } from '../utils.js';
+
+document.addEventListener('DOMContentLoaded', () => {
+  injectFooter();
+
+});
+
 
 function createBaseLayout() {
   const app = document.getElementById('app'); //TO DO have to change the name
-
   app.innerHTML = `
     <input type="text" id="search" placeholder="Search products..." />
     <button id="findBtn">Find</button>
@@ -14,7 +20,7 @@ function createBaseLayout() {
         <h3 class="name"></h3>
         <p class="description"></p>
         <strong class="price"></strong>
-        <button>Add to cart</button>
+        <button class="add-cart-btn">Add to cart</button>
       </div>
     </template>
   `;
@@ -32,27 +38,51 @@ async function loadCatalog(query = 'handmade') {
     return;
   }
 
+  // saves products?
+  localStorage.setItem('allProducts', JSON.stringify(products));
+
   products.forEach(product => {
     const clone = template.content.cloneNode(true);
-    clone.querySelector('img').src = product.image;
-    clone.querySelector('img').alt = product.name;
+    const card = clone.querySelector('.product-card');
+
+    const img = clone.querySelector('img');
+    img.src = product.image;
+    img.alt = product.name;
+
     clone.querySelector('.name').textContent = product.name;
     clone.querySelector('.description').textContent = product.description;
     clone.querySelector('.price').textContent = `$${product.price}`;
+
+  // Add to cart toggle logic with bubbling fix. This is going to be in utils!?
+const addToCartBtn = clone.querySelector('.add-cart-btn');//repeted class in details
+
+addToCartBtn.addEventListener('click', (e) => {
+  e.stopPropagation();
+
+  addToCartBtn.textContent = 'Added!';
+  addToCartBtn.disabled = true;
+});
+
+    // Add detailsProduct
+    card.addEventListener('click', () => {
+      localStorage.setItem('selectedProduct', JSON.stringify(product));
+      window.location.href = 'detailsProduct.html';
+    });
+
     container.appendChild(clone);
   });
 }
 
-function setupEvents() { //filter
+function setupEvents() { // filter
   const searchInput = document.getElementById('search');
   const findBtn = document.getElementById('findBtn');
 
   findBtn.addEventListener('click', () => {
     const query = searchInput.value.trim();
-    loadCatalog(query || 'handmade'); 
+    loadCatalog(query || 'handmade');
   });
 
-  searchInput.addEventListener('keydown', (e) => { //is the same as click with the mouse but using 'enter' key
+  searchInput.addEventListener('keydown', (e) => { // enter same as click
     if (e.key === 'Enter') {
       const query = searchInput.value.trim();
       loadCatalog(query || 'handmade');
@@ -60,7 +90,6 @@ function setupEvents() { //filter
   });
 }
 
-//ADD click fuction for product details (plus detailsProduct.js). Same as details, by clicking the card
 
 //do not forget
 createBaseLayout();
