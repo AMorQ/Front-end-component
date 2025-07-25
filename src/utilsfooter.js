@@ -1,6 +1,6 @@
 //footer
-
 export function injectFooter() {
+  document.body.style.paddingBottom = '100px';
   const footerHTML = `
     <footer id="footer">
       <div class="footer-container">

@@ -1,5 +1,5 @@
-import { fetchProductImages } from '../API/apiProducts.js';
-import { injectFooter } from '../utils.js';
+import { fetchProductImages } from '../API/ApiProducts.js';
+import { injectFooter } from '../utilsfooter.js';
 
 document.addEventListener('DOMContentLoaded', () => {
   injectFooter();
