@@ -1,4 +1,3 @@
-/* Mobile First CSS - Estilos base para móvil */
 body {
     display: flex;
     font-family: Arial, sans-serif;
@@ -422,7 +421,7 @@ body {
     }
 }
 
-/* Large Desktop (1200px y arriba) */
+/* Large Desktop (1200px) */
 @media (min-width: 1200px) {
     .home-container {
         max-width: 1200px;
