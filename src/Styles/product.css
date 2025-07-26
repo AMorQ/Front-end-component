@@ -1,10 +1,10 @@
 /* Is a mock, not the colours for the web */
 body {
-    display: flex;
-    font-family: Arial, sans-serif;
-    padding: 20px;
-    background: gainsboro;
-    margin: 0;
+  display: flex;
+  font-family: Arial, sans-serif;
+  background-color: rgb(190, 233, 248);
+  margin: 50px 20px 20px 20px;
+  padding-bottom: 30px;
 }
 
 
@@ -25,7 +25,7 @@ button {
 }
 
 button:hover {
-    background-color: #009578;
+    background-color: #44aaee;
 }
 
 
@@ -44,7 +44,7 @@ button:hover {
     flex-direction: column;
     align-items: center;
     text-align: center;
-    height: 380px;
+    height: 320px;
     overflow: hidden;
 }
 

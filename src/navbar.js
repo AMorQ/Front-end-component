@@ -11,11 +11,11 @@ export function injectNavbar() {
           <a href="product.html">Products</a>
           <a href="contact.html">Contact</a>
           <a href="profile.html">Profile</a>
-          <a href="auth.html">Login</a>
+          <a href="auth.html">Authentication</a>
         </div>
         <div class="navbar-cart">
           <a href="#">
-            <img src="/navbar/cart1.png" alt="Cart" />
+            <img src="/navbar/cart2.gif" alt="Cart" />
           </a>
         </div>
       </div>

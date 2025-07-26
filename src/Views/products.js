@@ -1,11 +1,10 @@
 import { fetchProductImages } from '../API/ApiProducts.js';
-import { injectFooter } from '../utilsfooter.js';
+// import { injectFooter } from '../utilsfooter.js';
 
-document.addEventListener('DOMContentLoaded', () => {
-  injectFooter();
+// document.addEventListener('DOMContentLoaded', () => {
+//   injectFooter();
 
-});
-
+// });
 
 function createBaseLayout() {
   const app = document.getElementById('app'); //TO DO have to change the name
@@ -50,7 +49,7 @@ async function loadCatalog(query = 'handmade') {
     img.alt = product.name;
 
     clone.querySelector('.name').textContent = product.name;
-    clone.querySelector('.description').textContent = product.description;
+    // clone.querySelector('.description').textContent = product.description;
     clone.querySelector('.price').textContent = `$${product.price}`;
 
   // Add to cart toggle logic with bubbling fix. This is going to be in utils!?

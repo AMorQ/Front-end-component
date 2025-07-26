@@ -10,8 +10,8 @@ body{
 }
 
  footer {
-  background-color: #000;
-  color: #fff;
+  background-color: rgb(190, 233, 248);
+  color: #8a7f5a;
   padding: 40px 20px 20px;
   font-family: Arial, sans-serif;
 }
@@ -36,13 +36,13 @@ body{
 .footer-section h4 {
   margin-bottom: 10px;
   font-size: 1.2em;
-  border-bottom: 1px solid #444;
+  border-bottom: 1px solid #8a7f5a;
   padding-bottom: 5px;
 }
 
 .footer-section p {
   font-size: 30px;
-  color: #ccc;
+  color: #8a7f5a;
 }
 
 /* Links */
@@ -57,19 +57,19 @@ body{
 }
 
 .footer-section ul li a {
-  color: #fff;
+  color: #8a7f5a;
   text-decoration: none;
   transition: color 0.2s ease;
 }
 
 .footer-section ul li a:hover {
-  color: #ccc;
+  color: #8a7f5a;
 }
 
 .footer-bottom {
   text-align: center;
-  border-top: 1px solid #444;
+  border-top: 1px solid #8a7f5a;;
   padding-top: 15px;
   font-size: 0.9em;
-  color: #aaa;
+  color: #8a7f5a;;
 }

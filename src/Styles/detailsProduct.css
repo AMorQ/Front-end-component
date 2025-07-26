@@ -1,14 +1,29 @@
 /* Is a mock, not the colours for the web */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 body {
+  display: flex;
+  font-family: Arial, sans-serif;
+  background-color: rgb(190, 233, 248);
+  margin: 60px 20px 20px 20px;
+
+}
+
+/* body {
     display: flex;
     justify-content: center;
     align-items: center;
     font-family: Arial, sans-serif;
-    padding: 20px;
-    background: gainsboro;
-    margin: 0;
+    background-color: rgb(190, 233, 248);
+    margin: 150px 20px 20px 20px;
     min-height: 100vh;
-}
+    padding-top: 200px;
+} */
 
 .product-details {
     background: white;
@@ -58,7 +73,7 @@ button
 
 #addToCartBtn:hover,
 #backBtn:hover {
-    background-color: #009578;
+    background-color: #44aaee;
 }
 
 .actions {
@@ -126,6 +141,7 @@ button
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     cursor: pointer;
     transition: transform 0.2s;
+    margin-bottom: 20px;
 }
 
 .suggested-card:hover {
@@ -151,5 +167,5 @@ button
 }
 
 .see-more button:hover {
-    background-color: #009578;
+    background-color: #44aaee;
 }

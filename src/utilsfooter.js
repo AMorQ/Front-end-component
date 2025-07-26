@@ -1,6 +1,16 @@
-//footer
+let footerInjected = false;
+
 export function injectFooter() {
-  document.body.style.paddingBottom = '100px';
+
+  if (footerInjected) {
+    return;
+  }
+  
+  if (document.getElementById('footer')) {
+    footerInjected = true;
+    return;
+  }
+
   const footerHTML = `
     <footer id="footer">
       <div class="footer-container">
@@ -36,7 +46,6 @@ export function injectFooter() {
   const footer = document.createElement('div');
   footer.innerHTML = footerHTML;
   document.body.appendChild(footer);
+  
+  footerInjected = true;
 }
-
-// //filter. 
-
