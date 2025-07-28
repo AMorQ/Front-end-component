@@ -1,13 +1,12 @@
 import { fetchProductImages } from './API/ApiProducts.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
-    
+  
     // Render home page content
     renderHomePage();
     
     // Load artist images for the artists grid
     await loadArtistImages();
-    // injectFooter();
 
 function renderHomePage() {
     const app = document.getElementById('app');
@@ -16,10 +15,7 @@ function renderHomePage() {
             <!-- Sección 2: Imagen a lo ancho -->
             <section class="section">
                 <div class="full-width-section">
-                    <img src="/images/function.png" alt="How it works" class="full-width-image">
-                    <div class="full-width-content">
-                        <button class="btn" id="startSelling1">START SELLING</button>
-                    </div>
+                    <img src="/image/work6.png" alt="How it works" class="full-width-image">
                 </div>
             </section>
             
@@ -33,8 +29,8 @@ function renderHomePage() {
                         </div>
                     </div>
                     <div class="column">
-                        <video controls class="column-image">
-                            <source src="/videos/artisan.mp4" type="video/mp4">
+                        <video controls class="column-video">
+                            <source src="/video/NABECARAL.mp4" type="video/mp4">
                             Your browser does not support the video tag.
                         </video>
                     </div>
@@ -48,12 +44,15 @@ function renderHomePage() {
                         <div class="artists-grid" id="artists-grid">
                             <!-- Artist images will be injected here -->
                         </div>
-                        <button class="btn" id="viewProducts">View Products</button>
+                        <div class="buttons-container">
+                            <button class="btn" id="viewProducts">View Products</button>
+                            <button class="btn" id="viewArtisans">View Artisans</button>
+                        </div>
                     </div>
                     <div class="column">
                         <div class="column-content">
                             <h2 class="column-title">Join thousands of successful artists</h2>
-                            <p class="column-description">Artists are at the heart of Nabecaral. Professionals, beginners, fans with great ideas—all earning money on Nabecaral every day. Here are some examples:</p>
+                            <p class="column-description">Artists are at the heart of Nabecaral. Professionals, beginners, fans with great ideas all earning money on Nabecaral every day. Supportive community - Connect with other artisans and share techniques</p>
                             <button class="btn" id="startSelling2">START SELLING</button>
                         </div>
                     </div>
@@ -66,7 +65,7 @@ function renderHomePage() {
                 <p class="section-description">We've recently introduced different membership levels designed to incentivize and celebrate artists who consistently produce unique and exceptional work. When you sign up, we'll rank your account based on your profile and the work you upload.</p>
                 
                 <div class="membership-content">
-                    <img src="/images/Membership.png" alt="Membership Levels" class="membership-image">
+                    <img src="/image/Membership.png" alt="Membership Levels" class="membership-image">
                     <button class="btn" id="startSelling3">START SELLING</button>
                 </div>
             </section>
@@ -79,13 +78,18 @@ function renderHomePage() {
 
 async function loadArtistImages() {
     try {
-        const artists = await fetchProductImages('artist', 2);
+        // Obtener más imágenes (10 en este caso)
+        const allArtists = await fetchProductImages('artist', 20);
         const artistsGrid = document.getElementById('artists-grid');
         
-        if (artistsGrid) {
+        if (artistsGrid && allArtists.length > 0) {
             artistsGrid.innerHTML = '';
             
-            artists.forEach(artist => {
+            // Mezclar el array de artistas y seleccionar 2 aleatorios
+            const shuffledArtists = [...allArtists].sort(() => 0.5 - Math.random());
+            const selectedArtists = shuffledArtists.slice(0, 2);
+            
+            selectedArtists.forEach(artist => {
                 const card = document.createElement('div');
                 card.className = 'artist-card';
                 card.innerHTML = `
@@ -96,6 +100,35 @@ async function loadArtistImages() {
         }
     } catch (error) {
         console.error('Error loading artist images:', error);
+        // Opcional: Mostrar imágenes de respaldo si hay error
+        showFallbackImages();
+    }
+}
+
+function showFallbackImages() {
+    const artistsGrid = document.getElementById('artists-grid');
+    if (artistsGrid) {
+        const fallbackImages = [
+            {
+                image: '/images/artist1.jpg',
+                name: 'Artist 1'
+            },
+            {
+                image: '/images/artist2.jpg',
+                name: 'Artist 2'
+            }
+        ];
+        
+        artistsGrid.innerHTML = '';
+        
+        fallbackImages.forEach(artist => {
+            const card = document.createElement('div');
+            card.className = 'artist-card';
+            card.innerHTML = `
+                <img src="${artist.image}" alt="${artist.name}" class="artist-image">
+            `;
+            artistsGrid.appendChild(card);
+        });
     }
 }
 
@@ -121,6 +154,13 @@ function setupEventListeners() {
             window.location.href = 'product.html';
         });
     }
+    
+    // View Artisans button (nuevo)
+    const viewArtisansBtn = document.getElementById('viewArtisans');
+    if (viewArtisansBtn) {
+        viewArtisansBtn.addEventListener('click', () => {
+            window.location.href = 'artisans.html'; // Asegúrate de tener esta página
+        });
+    }
 }
-
-});
+})

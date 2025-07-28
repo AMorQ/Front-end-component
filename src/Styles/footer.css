@@ -1,75 +1,76 @@
 /* this is not only footer css, i just use this name so i can find it faster,
  probably going to have the main.css */
 
-body{
-    height: 700px;
-    max-height: 100%;
-    max-width: 100%;
-     display: flex;
-  flex-direction: column;
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+    margin: 0;
+    padding: 0;
 }
 
- footer {
-  background-color: rgb(190, 233, 248);
-  color: #8a7f5a;
-  padding: 40px 20px 20px;
-  font-family: Arial, sans-serif;
+footer {
+    background-color: #fff;
+    color: #003e83;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    margin-top: auto; /* Esto empuja el footer hacia abajo */
+    width: 100%;
 }
 
 .footer-container {
-  max-width: 1200px;
-  margin: 0 auto;
+    /* max-width: 1200px; */
+    margin: 0 auto;
 }
 
 .footer-content {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  gap: 40px;
-  margin-bottom: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 20px;
 }
 
 .footer-section {
-  flex: 1 1 200px;
+    flex: 1 1 200px;
 }
 
 .footer-section h4 {
-  margin-bottom: 10px;
-  font-size: 1.2em;
-  border-bottom: 1px solid #8a7f5a;
-  padding-bottom: 5px;
+    margin-bottom: 10px;
+    font-size: 1.2em;
+    border-bottom: 1px solid #ffab00;
+    padding-bottom: 5px;
 }
 
 .footer-section p {
-  font-size: 30px;
-  color: #8a7f5a;
+    font-size: 16px;
+    color: #003e83;
 }
 
 /* Links */
 .footer-section ul {
-
-  list-style: none;
-  padding: 0;
+    list-style: none;
+    padding: 0;
 }
 
 .footer-section ul li {
-  margin: 6px 0;
+    margin: 10px 10px;
 }
 
 .footer-section ul li a {
-  color: #8a7f5a;
-  text-decoration: none;
-  transition: color 0.2s ease;
+    color: #003e83;
+    text-decoration: none;
+    transition: color 0.2s ease;
 }
 
 .footer-section ul li a:hover {
-  color: #8a7f5a;
+    color: #ffab00;
 }
 
 .footer-bottom {
-  text-align: center;
-  border-top: 1px solid #8a7f5a;;
-  padding-top: 15px;
-  font-size: 0.9em;
-  color: #8a7f5a;;
+    text-align: center;
+    border-top: 1px solid #ffab00;
+    padding-top: 15px;
+    font-size: 0.9em;
+    color: #003e83;
 }

@@ -1,11 +1,11 @@
-
+// src/navbar.js
 export function injectNavbar() {
   const navbarHTML = `
     <nav id="navbar">
       <div class="navbar-container">
         <!-- Logo -->
         <div class="navbar-logo">
-          <img src="/navbar/LOGO1.png" alt="Logo" />
+          <img src="/navbar/LOGO3.png" alt="Logo" />
         </div>
         
         <!-- Mobile hamburger button -->

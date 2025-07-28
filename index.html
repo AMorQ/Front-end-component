@@ -4,41 +4,22 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>NABECARAL - Artisan</title>
-    
-    <!-- Estilos -->
     <link rel="stylesheet" href="/src/Styles/reset.css">
     <link rel="stylesheet" href="/src/Styles/navbar.css">
     <link rel="stylesheet" href="/src/Styles/main.css">
     <link rel="stylesheet" href="/src/Styles/footer.css">
     
-    <style>
-        /* ESTILOS CORREGIDOS */
-        body, html {
-            margin: 0;
-            padding-top: 55px;
-            overflow-x: hidden;
-            width: 100%;
-            height: 100%;
-            background-color: #000;
-        }
-        
-        /* Contenedor principal con scroll */
-        .page-container {
-            position: relative;
-            width: 100%;
-            height: auto;
-            min-height: 100vh;
-        }
-        
-        /* Carrusel solo en la parte superior */
+    <style>          
+        /* Carrusel*/
         #marqueeContainer {
             position: relative;
             width: 100%;
-            height: 60vh;
+            height: 40vh;
             overflow: hidden;
             background-color: #000;
             display: block;
-            z-index: 1;            
+            z-index: 1; 
+            margin-top: 80px;          
         }
         
         #marqueeBox {
@@ -75,52 +56,40 @@
             color: white;
             font-size: 3rem;
             font-weight: 600;
-            text-shadow: 0 0 20px rgba(0,0,0,0.8);
+            text-shadow: 0 0 20px rgba(0,62,131,1);
             margin: 0;
         }
-        
-        /* Contenedor del contenido principal */
-        #app {
-            position: relative;
-            z-index: 10;
-            background: rgb(190, 233, 248);
-            width: 100%;
+
+        @media (min-width: 768px) {
+          #marqueeContainer {
+            height: 60vh;
+          }
+        }
+
+        @media (min-width: 1024px) {
+          #marqueeContainer {
+            height:70vh; 
+            padding-top: 120px;    
+          }
         }
     </style>
   </head>
-
   <body>
-  <script type="module" src="/src/init.js"></script>
-    <!-- Contenedor principal con todo el contenido -->
     <div class="page-container">
-        <!-- Carrusel GSAP -->
         <div id="marqueeContainer">
             <div id="marqueeBox">
-                <!-- Imágenes se añadirán dinámicamente -->
-            </div>
-            
+            </div>            
             <div class="marquee-title">
                 <h1>NABECARAL</h1>
             </div>
         </div>
-
-        <!-- Contenedor para el resto del home -->
         <div id="app"></div>
     </div>
-
-    <!-- Scripts de la aplicación -->
-
+    <script type="module" src="/src/init.js"></script>  
     <script type="module" src="/src/main.js"></script>
-
-    <!-- GSAP -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-
     <script>
-        // Función para cargar el carrusel de imágenes con tus archivos locales
         function loadSliderImages() {
-            console.log("Iniciando carga del carrusel con imágenes locales...");
-            
-            // LISTA DE TUS IMÁGENES LOCALES EN public/slider/
             const images = [
                 '/slider/1.jpeg',
                 '/slider/2.jpeg',
@@ -130,15 +99,19 @@
                 '/slider/6.jpeg',
                 '/slider/8.jpeg',
                 '/slider/9.jpeg',
+                '/slider/10.jpeg',
+                '/slider/11.jpeg',
                 '/slider/1.webp',
-                '/slider/2.webp',
-                '/slider/3.webp',
+                '/slider/2.webp',                
                 '/slider/4.webp',
                 '/slider/5.webp',
                 '/slider/6.webp',
                 '/slider/7.webp',
-                '/slider/8.webp',
-                '/slider/9.webp'
+                '/slider/8.webp',                
+                '/slider/10.webp',
+                '/slider/11.webp',
+                '/slider/12.webp',
+                '/slider/13.webp'
             ];
             
             const marqueeBox = document.getElementById('marqueeBox');
@@ -147,11 +120,7 @@
                 console.error('ERROR: No se encontró el elemento marqueeBox');
                 return;
             }
-            
-            // Limpiar contenedor
             marqueeBox.innerHTML = '';
-            
-            // Crear imágenes duplicadas para efecto continuo
             const duplicatedImages = [...images, ...images];
             
             duplicatedImages.forEach(src => {
@@ -160,18 +129,12 @@
                 img.alt = 'Producto artesanal';
                 img.onerror = function() {
                     console.error("Error al cargar imagen:", this.src);
-                    // Reemplazar con imagen de respaldo si es necesario
-                    // this.src = '/ruta/respaldo.jpg';
                 };
                 marqueeBox.appendChild(img);
-            });
-            
-            console.log("Imágenes locales añadidas al DOM");
-            
-            // Iniciar animación
+            });            
+
             setTimeout(() => {
                 const totalWidth = marqueeBox.scrollWidth / 2;
-                console.log("Ancho total calculado:", totalWidth);
                 
                 if (totalWidth > 0) {
                     gsap.to(marqueeBox, {
@@ -184,9 +147,8 @@
                     console.error("ERROR: El ancho total es 0");
                 }
             }, 100);
-        }
-        
-        // Cargar el carrusel cuando el DOM esté listo
+        }        
+
         document.addEventListener('DOMContentLoaded', loadSliderImages);
     </script>
 
