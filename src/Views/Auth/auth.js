@@ -4,6 +4,8 @@
 import { setupPasswordToggle } from "../../Utils/utils.js";
 import { getAllUsers } from "../../API/userAPI.js";
 import {renderRegisterForm} from "./register.js";
+// ATTENTION! NOTE:when importing a function from a module, all that module will execute
+// that means, that high level code would execute just for importing a module
 
 setupPasswordToggle("toggle-password", "login-password", "eye-icon");
 
@@ -13,7 +15,6 @@ setupPasswordToggle("toggle-password", "login-password", "eye-icon");
 window.addEventListener("popstate", () => {
   window.location.href = "/";
 });
-
 
 const form = document.getElementById("login-form");
 
@@ -75,6 +76,8 @@ form.addEventListener("submit", async (event) => {
 
 // Handle register link click
 document.addEventListener("DOMContentLoaded", () => {
+  setupPasswordToggle("toggle-password", "login-password", "eye-icon");
+
   const registerLink = document.getElementById("register-link");
   
   if (registerLink) {
@@ -85,28 +88,5 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 // NOTE: this can be used for register button at home page
-
-// Utility function to get current user from either localStorage or sessionStorage
-export function getCurrentUser() {
-  // Check localStorage first (Remember Me was checked)
-  const userFromLocal = localStorage.getItem("currentUser");
-  if (userFromLocal) {
-    return JSON.parse(userFromLocal);
-  }
-  
-  // Check sessionStorage (Remember Me was not checked)
-  const userFromSession = sessionStorage.getItem("currentUser");
-  if (userFromSession) {
-    return JSON.parse(userFromSession);
-  }
-  
-  return null; // No user found
-}
-
-// Utility function to logout user from both storages--> TODO: add button to logout
-export function logoutUser() {
-  localStorage.removeItem("currentUser");
-  sessionStorage.removeItem("currentUser");
-}
 
 

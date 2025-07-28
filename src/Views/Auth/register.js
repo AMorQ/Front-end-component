@@ -50,6 +50,14 @@ export function renderRegisterForm() {
       <div class="form-group password">
         <input type="password" placeholder="Confirm Password" id="register-confirm-password" autocomplete="new-password" required />
       </div>
+ 
+      <div class="form-group">
+        <label class="checkbox-label">
+          <input type="checkbox" id="register-artisan" />
+          <span class="checkmark"></span>
+          Register as Artisan
+        </label>
+      </div>
       
       <button type="submit" class="btn">Register</button>
     </form>
@@ -83,6 +91,7 @@ export function renderRegisterForm() {
     const userEmail = document.getElementById("register-email").value.trim();
     const password = document.getElementById("register-password").value;
     const confirmPassword = document.getElementById("register-confirm-password").value;
+    const isArtisan = document.getElementById("register-artisan").checked;
 
     let validations = true;
 
@@ -113,10 +122,12 @@ export function renderRegisterForm() {
         userName,
         userEmail,
         password,
+        isArtisan,
       };
 
       await createNewUser(userData);
       console.log("User created:", userData);
+      
     }
   });
 }

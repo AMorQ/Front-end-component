@@ -36,7 +36,8 @@ export async function createNewUser(userData) {
       body: JSON.stringify({
         userName: userData.userName,
         userEmail: userData.userEmail,
-        password: userData.userPassword,
+        userPassword: userData.userPassword,
+        isArtisan: userData.isArtisan,
 
       }),
     });

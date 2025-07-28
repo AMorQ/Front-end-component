@@ -1,6 +1,10 @@
-import { getCurrentUser, logoutUser } from "./Auth/auth.js";
-import { getAllUsers, updateUser } from "../API/userAPI.js";
+import { getCurrentUser, logoutUser } from "../Utils//auth_utils.js";
+// import { getAllUsers, updateUser } from "../API/userAPI.js";
+import { getAllUsers} from "../API/userAPI.js";
 import { fetchProductImages } from "../API/ApiProducts.js";
+// Imports execute the code immediately when the module is loaded, not just when you call imported functions.
+
+console.log('profile.js is executing')
 
 // DOM elements
 const profileName = document.getElementById('profile-name');
@@ -24,6 +28,7 @@ let isArtisan = false;
 
 // Initialize profile page
 document.addEventListener('DOMContentLoaded', async () => {
+  console.log("DOMContentLoaded fired!"); // Check if event listener runs
   currentUser = getCurrentUser();
   
   if (currentUser) {
