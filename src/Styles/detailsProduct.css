@@ -1,13 +1,22 @@
 /* Is a mock, not the colours for the web */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-family: Arial, sans-serif;
-    padding: 20px;
-    background: gainsboro;
-    margin: 0;
-    min-height: 100vh;
+  display: flex;
+  font-family: Arial, sans-serif;
+  background-color:#6c2b11;
+  margin: 60px 20px 20px 20px;
+
+}
+
+#app {
+    padding: 50px;
+    margin-top: 60px;
 }
 
 .product-details {
@@ -41,7 +50,7 @@ body {
 .product-details strong {
     display: block;
     font-size: 18px;
-    color: #333;
+    color: #003e83;
     margin-bottom: 20px;
 }
 
@@ -49,16 +58,34 @@ button
  {
     padding: 10px 20px;
     border: none;
-    background-color: #c5bd8f;
+    background-color: #003e83;
     color: white;
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s;
 }
 
+button {
+    
+    padding: 8px;
+    margin: 10px;
+    box-shadow: 0 2px 10px rgba(245, 242, 242, 0.5);
+    border-radius: 5px;
+    display: flex;
+    background-color: #003e83;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #ffab00;
+}
+
+
 #addToCartBtn:hover,
 #backBtn:hover {
-    background-color: #009578;
+    background-color: #ffab00;
 }
 
 .actions {
@@ -83,7 +110,7 @@ button
     text-align: center;
     margin: 40px 0 10px;
     font-size: 20px;
-    color: #333;
+    color: #ffab00;
 }
 
 .suggested-wrapper {
@@ -101,12 +128,12 @@ button
     border: none;
     font-size: 24px;
     cursor: pointer;
-    color: #666;
+    color: #ffab00;
     transition: color 0.2s;
 }
 
 .arrow:hover {
-    color: #000;
+    color: #003e83;
 }
 
 .suggested-container {
@@ -126,6 +153,7 @@ button
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     cursor: pointer;
     transition: transform 0.2s;
+    margin-bottom: 20px;
 }
 
 .suggested-card:hover {
@@ -143,7 +171,7 @@ button
 .see-more button {
     padding: 10px 15px;
     border: none;
-    background-color: #c5bd8f;
+    background-color: #003e83;
     color: white;
     border-radius: 5px;
     cursor: pointer;
@@ -151,5 +179,5 @@ button
 }
 
 .see-more button:hover {
-    background-color: #009578;
+    background-color: #44aaee;
 }

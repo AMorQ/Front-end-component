@@ -1,13 +1,19 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 body {
-    font-family: 'Arial', sans-serif;
-    background: gainsboro;
-    margin: 0;
-    padding: 0;
-    color: #333;
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    overflow-x: hidden;
+    color: #003e83;
+    background-color: #6c2b11;
 }
 
 .profile-container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 20px;
+    padding: 40px;
 }

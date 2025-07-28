@@ -1,13 +1,26 @@
-//footer
+// src/utilsfooter.js
+let footerInjected = false;
+
 export function injectFooter() {
-  document.body.style.paddingBottom = '100px';
+  // Si ya se inyectó el footer, salimos de la función
+  if (footerInjected) {
+    return;
+  }
+  
+  // Si ya existe un footer en el DOM, no inyectamos otro
+  if (document.getElementById('footer')) {
+    footerInjected = true;
+    return;
+  }
+
   const footerHTML = `
     <footer id="footer">
       <div class="footer-container">
         <div class="footer-content">
           <div class="footer-section">
             <h4>About</h4>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellat, inventore.</p>
+            <p>"Do you create with your hands? Live your passion!
+            Join NABECARAL today and begin your artisan journey"</p>
           </div>
           <div class="footer-section">
             <h4>Navigation</h4>
@@ -27,7 +40,7 @@ export function injectFooter() {
           </div>
         </div>
         <div class="footer-bottom">
-          <p>&copy; 2025 Artisan Space. All rights reserved.</p>
+          <p>&copy; 2025 NABECARAL - Artisan Space. All rights reserved.</p>
         </div>
       </div>
     </footer>
@@ -36,7 +49,7 @@ export function injectFooter() {
   const footer = document.createElement('div');
   footer.innerHTML = footerHTML;
   document.body.appendChild(footer);
+  
+  // Marcamos como inyectado
+  footerInjected = true;
 }
-
-// //filter. 
-

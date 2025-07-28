@@ -1,10 +1,13 @@
+/* src/Styles/navbar.css - Mobile First */
+
+/* Base styles for mobile */
 #navbar {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
-  background-color: #fff;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  background-color: #ffff;
+  box-shadow: 1px 2px 10px rgba(168, 160, 117, 3);
   z-index: 1000;
   padding: 10px 0;
 }
@@ -13,36 +16,286 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  max-width: 1200px;
+  max-width: 100%;
   margin: 0 auto;
-  padding: 0 20px;
+  padding: 0 15px;
 }
 
+/* Logo styles */
 .navbar-logo img {
-  height: 80px;
+  height: 50px;
 }
 
-.navbar-links {
+/* Desktop navigation icons - hidden on mobile */
+.navbar-icons {
+  display: none;
+}
+
+/* Hamburger button - visible on mobile */
+.hamburger-btn {
   display: flex;
-  gap: 20px;
-}
-
-.navbar-links a {
-  text-decoration: none;
-  color: #333;
-  font-weight: 500;
-  transition: color 0.3s;
-}
-
-.navbar-links a:hover {
-  color: #007bff;
-}
-
-.navbar-cart img {
-  height: 30px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  background: none;
+  border: none;
   cursor: pointer;
+  padding: 8px;
+  transition: all 0.3s ease;
 }
 
+.hamburger-line {
+  width: 24px;
+  height: 2px;
+  background-color: #000;
+  transition: all 0.3s ease;
+  margin: 2px 0;
+}
+
+/* Hamburger animation when active */
+.hamburger-btn.active .hamburger-line:nth-child(1) {
+  transform: rotate(45deg) translate(5px, 5px);
+}
+
+.hamburger-btn.active .hamburger-line:nth-child(2) {
+  opacity: 0;
+}
+
+.hamburger-btn.active .hamburger-line:nth-child(3) {
+  transform: rotate(-45deg) translate(7px, -6px);
+}
+
+/* Mobile menu overlay */
+.mobile-menu-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+  z-index: 1001;
+}
+
+.mobile-menu-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Mobile menu */
+.mobile-menu {
+  position: fixed;
+  top: 0;
+  right: -100%;
+  width: 280px;
+  height: 100vh;
+  background-color: #ffffff;
+  transition: right 0.3s ease;
+  z-index: 1002;
+  box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.mobile-menu.active {
+  right: 0;
+}
+
+.mobile-menu-content {
+  padding: 80px 0 20px 0;
+  height: 100%;
+  overflow-y: auto;
+}
+
+/* Mobile menu items */
+.mobile-menu-item {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 15px 30px;
+  color: #2619d1;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+  gap: 12px;
+}
+
+.mobile-menu-item:hover {
+  background-color: rgba(38, 25, 209, 0.05);
+}
+
+.mobile-menu-item .menu-icon {
+  width: 20px;
+  height: 20px;
+  stroke: #2619d1;
+  flex-shrink: 0;
+}
+
+/* Body padding adjustment for mobile */
 body {
   padding-top: 70px;
+}
+
+/* Tablet styles (768px and up) */
+@media (min-width: 768px) {
+  .navbar-container {
+    max-width: 750px;
+    padding: 0 20px;
+  }
+  
+  .navbar-logo img {
+    height: 60px;
+  }
+  
+  /* Hide hamburger on tablet and up */
+  .hamburger-btn {
+    display: none;
+  }
+  
+  /* Show desktop icons on tablet and up */
+  .navbar-icons {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+  }
+  
+  .nav-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    position: relative;
+  }
+  
+  .nav-icon svg {
+    width: 20px;
+    height: 20px;
+    stroke: #003e83;
+    transition: all 0.3s ease;
+  }
+  
+  /* Hover effect with orange shadow */
+  .nav-icon:hover {
+    box-shadow: 0 0 20px rgba(52, 84, 243, 0.6);
+    transform: translateY(-2px);
+    /* background-color: rgb(201, 201, 201); */
+  }
+  
+  .nav-icon:hover svg {
+    stroke: #ffab00;
+  }
+  
+  /* Hide mobile menu elements */
+  .mobile-menu,
+  .mobile-menu-overlay {
+    display: none;
+  }
+  
+  body {
+    padding-top: 80px;
+  }
+}
+
+/* Desktop styles (1024px and up) */
+@media (min-width: 1024px) {
+  .navbar-container {
+    max-width: 1000px;
+  }
+  
+  .navbar-logo img {
+    height: 70px;
+  }
+  
+  .navbar-icons {
+    gap: 20px;
+  }
+  
+  .nav-icon {
+    width: 45px;
+    height: 45px;
+  }
+  
+  .nav-icon svg {
+    width: 22px;
+    height: 22px;
+  }
+  
+  body {
+    padding-top: 90px;
+  }
+}
+
+/* Large desktop styles (1200px and up) */
+@media (min-width: 1200px) {
+  .navbar-container {
+    max-width: 1200px;
+  }
+  
+  .navbar-logo img {
+    height: 80px;
+  }
+  
+  .navbar-icons {
+    gap: 25px;
+  }
+  
+  .nav-icon {
+    width: 50px;
+    height: 50px;
+  }
+  
+  .nav-icon svg {
+    width: 24px;
+    height: 24px;
+  }
+  
+  /* Enhanced hover effect for large screens */
+  .nav-icon:hover {
+    box-shadow: 0 0 25px rgba(52, 84, 243, 0.6);
+    transform: translateY(-3px);
+  }
+  
+  body {
+    padding-top: 100px;
+  }
+}
+
+/* Accessibility improvements */
+@media (prefers-reduced-motion: reduce) {
+  .nav-icon,
+  .hamburger-line,
+  .mobile-menu,
+  .mobile-menu-overlay {
+    transition: none;
+  }
+}
+
+/* Focus styles for accessibility */
+.nav-icon:focus,
+.hamburger-btn:focus,
+.mobile-menu-item:focus {
+  outline: 2px solid #2619d1;
+  outline-offset: 2px;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .nav-icon svg {
+    stroke: #000;
+    stroke-width: 2.5;
+  }
+  
+  .mobile-menu-item {
+    color: #000;
+  }
+  
+  .mobile-menu-item .menu-icon {
+    stroke: #000;
+  }
 }
