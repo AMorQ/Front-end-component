@@ -20,16 +20,29 @@ const form = document.getElementById("login-form");
 form.addEventListener("submit", async (event) => {
   event.preventDefault();
 
+  // Debug solution: with the autofill browser parameter, it can be that the visual input appears filled but JS can't access the value immediately
+  // lets add a small delay
+
+  setTimeout(async () => {
+    // FIXME: VIOLATION: setTimeOut handler took 26710ms
+
   const userEmail = document.getElementById("login-email").value;
   const password = document.getElementById("login-password").value;
   const rememberMe = document.getElementById("remember-me").checked;
   const errorDiv = document.getElementById("login-error");
 
+  console.log("Values after timeout:", { userEmail, password });
+
+
   try {
     const users = await getAllUsers();
     //   NOTE: CAN IT BE DONE JUST FETCHING THE DDBB PARTIALLY?
     const currentUser = users.find(
-      (e) => e.userEmail === userEmail && e.password === password
+      (e) => {
+        
+        console.log(e.userEmail === userEmail, e.userPassword === password);
+        return e.userEmail === userEmail && e.userPassword === password;
+      }
     );
     //Keep the user logged based on "Remember Me" checkbox
     if (currentUser) {
@@ -57,6 +70,7 @@ form.addEventListener("submit", async (event) => {
     errorDiv.textContent =
       "An unexpected error occurred. Please try again later.";
   }
+}, 100);
 });
 
 // Handle register link click
