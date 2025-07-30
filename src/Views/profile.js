@@ -1,360 +1,346 @@
-import { getCurrentUser, logoutUser } from "./Auth/auth.js";
-import { getAllUsers, updateUser } from "../API/userAPI.js";
+function getCurrentUser() {
+  const userFromLocal = localStorage.getItem("currentUser");
+  if (userFromLocal) {
+    return JSON.parse(userFromLocal);
+  }
+  
+  const userFromSession = sessionStorage.getItem("currentUser");
+  if (userFromSession) {
+    return JSON.parse(userFromSession);
+  }
+  
+  return null;
+}
+
+function logoutUser() {
+  localStorage.removeItem("currentUser");
+  sessionStorage.removeItem("currentUser");
+}
+import { getUserId, updateUser, deleteUser } from "../API/userAPI.js";
 import { fetchProductImages } from "../API/ApiProducts.js";
 
-// DOM elements
 const profileName = document.getElementById('profile-name');
+const profileEmail = document.getElementById('profile-email');
 const profileLocation = document.getElementById('profile-location');
 const profileImage = document.getElementById('profile-image');
-const profileRating = document.getElementById('profile-rating');
 const profileContent = document.getElementById('profile-content');
+const productsGrid = document.getElementById('products-grid');
 
-// Modal elements
 const editModal = document.getElementById('edit-modal');
-const addProductModal = document.getElementById('add-product-modal');
+const confirmModal = document.getElementById('confirm-modal');
 const closeModalButtons = document.querySelectorAll('.close-modal');
 
-// Form elements
 const editProfileForm = document.getElementById('edit-profile-form');
-const addProductForm = document.getElementById('add-product-form');
+const editNameInput = document.getElementById('edit-name');
+const editEmailInput = document.getElementById('edit-email');
+const editLocationInput = document.getElementById('edit-location');
+const editError = document.getElementById('edit-error');
 
-// Current user state
+const editProfileBtn = document.getElementById('edit-profile-btn');
+const deleteAccountBtn = document.getElementById('delete-account-btn');
+const confirmDeleteBtn = document.getElementById('confirm-delete');
+const cancelDeleteBtn = document.getElementById('cancel-delete');
+
 let currentUser = null;
-let isArtisan = false;
 
-// Initialize profile page
+const artisanCrafts = ['pottery', 'earrings', 'necklace', 'hats', 'basketry', 'wood artisan'];
+
 document.addEventListener('DOMContentLoaded', async () => {
-  currentUser = getCurrentUser();
-  
-  if (currentUser) {
-    isArtisan = currentUser.artisan || false;
-    await loadProfile(currentUser.id);
-  } else {
-    // For demo purposes, load a sample artisan profile
-    // In a real app, you might redirect to login or show public profiles
-    await loadSampleArtisanProfile();
-  }
+  try {
+    currentUser = getCurrentUser();
+    console.log('Current user from storage:', currentUser);
+    
+    if (currentUser && currentUser.id) {
+      console.log('Loading profile with ID:', currentUser.id);
+      await loadProfile(currentUser.id);
+    } else {
+      console.log('No valid user found in storage');
+      showToast('No user logged in. Redirecting to login...', 'error');
+      setTimeout(() => {
+        window.location.href = 'auth.html';
+      }, 2000);
+      return;
+    }
 
-  setupEventListeners();
+    setupEventListeners();
+  } catch (error) {
+    console.error('Error initializing profile:', error);
+    showToast('Error loading profile page', 'error');
+  }
 });
 
 async function loadProfile(userId) {
   try {
-    const users = await getAllUsers();
-    const user = users.find(u => u.id === userId);
+    showLoading();
     
-    if (!user) {
-      throw new Error('User not found');
-    }
-
-    renderProfile(user);
+    console.log('Loading profile for user ID:', userId);
     
-    if (isArtisan) {
-      renderPrivateProfile(user);
-    } else {
-      renderPublicProfile(user);
-    }
+    const userData = await getUserId(userId);
+    console.log('User data loaded from API:', userData);
+    
+    currentUser = userData;
+    
+    profileName.textContent = userData.userName || 'Artisan';
+    profileEmail.textContent = userData.userEmail || 'No email provided';
+    profileLocation.textContent = userData.location || 'Location not specified';
+    
+    console.log('Profile display updated');
+    
+    await loadProfileImage();
+    console.log('Profile image loaded');
+    
+    await loadArtisanProducts();
+    console.log('Products loaded');
+    
+    hideLoading();
+    console.log('Profile loading completed successfully');
+    
   } catch (error) {
     console.error('Error loading profile:', error);
-    showError('Failed to load profile. Please try again later.');
+    hideLoading();
+    
+    profileContent.innerHTML = `
+      <div style="text-align: center; color: white; padding: 40px;">
+        <h2>Error loading profile</h2>
+        <p>There was an error loading your profile data.</p>
+        <p>Error: ${error.message}</p>
+        <button class="btn" onclick="window.location.reload()">Try Again</button>
+      </div>
+    `;
   }
 }
 
-async function loadSampleArtisanProfile() {
-  // For public view when not logged in
-  const sampleArtisan = {
-    id: 'sample-1',
-    userName: 'Sample Artisan',
-    userEmail: 'sample@artisan.com',
-    location: 'Barcelona',
-    artisan: true,
-    styles_applied: {},
-    products: await fetchProductImages('handmade')
-  };
-  
-  renderProfile(sampleArtisan);
-  renderPublicProfile(sampleArtisan);
-}
-
-function renderProfile(user) {
-  profileName.textContent = user.userName;
-  profileLocation.textContent = user.location || 'Location not specified';
-  
-  // Set a default image if none provided
-  profileImage.src = user.profileImage || 'https://via.placeholder.com/150';
-  profileImage.alt = `${user.userName}'s profile picture`;
-  
-  // Generate random rating for demo (1-5 stars)
-  const rating = Math.floor(Math.random() * 5) + 1;
-  profileRating.innerHTML = '★'.repeat(rating) + '☆'.repeat(5 - rating);
-}
-
-function renderPublicProfile(user) {
-  // Clear previous content
-  while (profileContent.firstChild) {
-    profileContent.removeChild(profileContent.firstChild);
-  }
-
-  // Create public profile elements
-  const publicSection = document.createElement('div');
-  publicSection.className = 'public-profile';
-
-  const bioSection = document.createElement('div');
-  bioSection.className = 'bio-section';
-  bioSection.innerHTML = `
-    <h2>About ${user.userName}</h2>
-    <p>${user.bio || 'This artisan hasn\'t added a bio yet.'}</p>
-  `;
-
-  const productsHeader = document.createElement('h2');
-  productsHeader.textContent = 'Products';
-
-  const productsContainer = document.createElement('div');
-  productsContainer.className = 'products-grid';
-
-  // Add products if available
-  if (user.products && user.products.length > 0) {
-    user.products.forEach(product => {
-      const productCard = createProductCard(product);
-      productsContainer.appendChild(productCard);
+async function loadProfileImage() {
+  try {
+    console.log('Loading profile image...');
+    
+    const response = await fetch('https://api.pexels.com/v1/search?query=face&per_page=1', {
+      headers: {
+        Authorization: 'SmX8HumhMbfoqY3NfUWwTzV122LsE5BiCxtSzYnl1ARI5T33DUnSy72G'
+      }
     });
-  } else {
-    const noProducts = document.createElement('p');
-    noProducts.textContent = 'No products available yet.';
-    productsContainer.appendChild(noProducts);
-  }
 
-  // Append all elements
-  publicSection.appendChild(bioSection);
-  publicSection.appendChild(productsHeader);
-  publicSection.appendChild(productsContainer);
-  profileContent.appendChild(publicSection);
+    if (response.ok) {
+      const data = await response.json();
+      console.log('Pexels face response:', data);
+      
+      if (data.photos && data.photos.length > 0) {
+        profileImage.src = data.photos[0].src.medium;
+        console.log('Profile image set successfully');
+      } else {
+        console.log('No face photos found, using placeholder');
+        profileImage.src = 'https://via.placeholder.com/180x180?text=Profile';
+      }
+    } else {
+      console.log('Pexels API response not ok:', response.status);
+      profileImage.src = 'https://via.placeholder.com/180x180?text=Profile';
+    }
+  } catch (error) {
+    console.error('Error loading profile image:', error);
+    profileImage.src = 'https://via.placeholder.com/180x180?text=Profile';
+  }
 }
 
-function renderPrivateProfile(user) {
-  // Clear previous content
-  while (profileContent.firstChild) {
-    profileContent.removeChild(profileContent.firstChild);
+async function loadArtisanProducts() {
+  try {
+    console.log('Loading artisan products...');
+    
+    const selectedCraft = artisanCrafts[Math.floor(Math.random() * artisanCrafts.length)];
+    console.log('Selected craft:', selectedCraft);
+    
+    const products = await fetchProductImages(selectedCraft, 4);
+    console.log('Products fetched:', products);
+    
+    if (products && products.length > 0) {
+      renderProducts(products);
+      console.log('Products rendered successfully');
+    } else {
+      console.log('No products found, showing message');
+      productsGrid.innerHTML = '<p style="color: white; text-align: center;">No products available</p>';
+    }
+  } catch (error) {
+    console.error('Error loading products:', error);
+    productsGrid.innerHTML = '<p style="color: white; text-align: center;">Error loading products</p>';
   }
+}
 
-  // Create private profile elements
-  const privateSection = document.createElement('div');
-  privateSection.className = 'private-profile';
-
-  const actionsHeader = document.createElement('h2');
-  actionsHeader.textContent = 'Your Artisan Dashboard';
-
-  const actionsContainer = document.createElement('div');
-  actionsContainer.className = 'action-buttons';
-
-  const editProfileBtn = document.createElement('button');
-  editProfileBtn.className = 'btn';
-  editProfileBtn.textContent = 'Edit Profile';
-  editProfileBtn.addEventListener('click', () => openEditModal(user));
-
-  const addProductBtn = document.createElement('button');
-  addProductBtn.className = 'btn';
-  addProductBtn.textContent = 'Add Product';
-  addProductBtn.addEventListener('click', () => addProductModal.style.display = 'block');
-
-  const logoutBtn = document.createElement('button');
-  logoutBtn.className = 'btn logout';
-  logoutBtn.textContent = 'Logout';
-  logoutBtn.addEventListener('click', logout);
-
-  actionsContainer.appendChild(editProfileBtn);
-  actionsContainer.appendChild(addProductBtn);
-  actionsContainer.appendChild(logoutBtn);
-
-  const productsHeader = document.createElement('h2');
-  productsHeader.textContent = 'Your Products';
-
-  const productsContainer = document.createElement('div');
-  productsContainer.className = 'products-grid';
-
-  // Add products if available
-  if (user.products && user.products.length > 0) {
-    user.products.forEach(product => {
-      const productCard = createProductCard(product, true);
-      productsContainer.appendChild(productCard);
+function renderProducts(products) {
+  productsGrid.innerHTML = '';
+  
+  products.forEach(product => {
+    const productCard = document.createElement('div');
+    productCard.className = 'product-card';
+    
+    productCard.innerHTML = `
+      <img src="${product.image}" alt="${product.name}" />
+      <h3 class="name">${product.name}</h3>
+      <p class="description">${product.description}</p>
+      <strong class="price">$${product.price}</strong>
+    `;
+    
+    productCard.addEventListener('click', () => {
+      localStorage.setItem('selectedProduct', JSON.stringify(product));
+      window.location.href = 'detailsProduct.html';
     });
-  } else {
-    const noProducts = document.createElement('p');
-    noProducts.textContent = 'You haven\'t added any products yet.';
-    productsContainer.appendChild(noProducts);
-  }
-
-  // Append all elements
-  privateSection.appendChild(actionsHeader);
-  privateSection.appendChild(actionsContainer);
-  privateSection.appendChild(productsHeader);
-  privateSection.appendChild(productsContainer);
-  profileContent.appendChild(privateSection);
-}
-
-function createProductCard(product, isPrivate = false) {
-  const card = document.createElement('div');
-  card.className = 'product-card';
-
-  const img = document.createElement('img');
-  img.src = product.image || 'https://via.placeholder.com/200';
-  img.alt = product.name;
-
-  const name = document.createElement('h3');
-  name.textContent = product.name;
-
-  const desc = document.createElement('p');
-  desc.textContent = product.description;
-
-  const price = document.createElement('strong');
-  price.textContent = `€${product.price}`;
-
-  card.appendChild(img);
-  card.appendChild(name);
-  card.appendChild(desc);
-  card.appendChild(price);
-
-  if (isPrivate) {
-    const actions = document.createElement('div');
-    actions.className = 'product-actions';
-
-    const editBtn = document.createElement('button');
-    editBtn.className = 'btn small';
-    editBtn.textContent = 'Edit';
-    // editBtn.addEventListener('click', () => editProduct(product.id));
-
-    const deleteBtn = document.createElement('button');
-    deleteBtn.className = 'btn small danger';
-    deleteBtn.textContent = 'Delete';
-    // deleteBtn.addEventListener('click', () => deleteProduct(product.id));
-
-    actions.appendChild(editBtn);
-    actions.appendChild(deleteBtn);
-    card.appendChild(actions);
-  }
-
-  return card;
+    
+    productsGrid.appendChild(productCard);
+  });
 }
 
 function setupEventListeners() {
-  // Close modals when clicking X
+  editProfileBtn.addEventListener('click', openEditModal);
+  
+  deleteAccountBtn.addEventListener('click', openConfirmModal);
+  
   closeModalButtons.forEach(button => {
-    button.addEventListener('click', () => {
-      editModal.style.display = 'none';
-      addProductModal.style.display = 'none';
-    });
+    button.addEventListener('click', closeModals);
   });
-
-  // Close modals when clicking outside
+  
+  editProfileForm.addEventListener('submit', handleEditProfile);
+  
+  confirmDeleteBtn.addEventListener('click', handleDeleteAccount);
+  cancelDeleteBtn.addEventListener('click', closeModals);
+  
   window.addEventListener('click', (event) => {
-    if (event.target === editModal) {
-      editModal.style.display = 'none';
+    if (event.target === editModal || event.target === confirmModal) {
+      closeModals();
     }
-    if (event.target === addProductModal) {
-      addProductModal.style.display = 'none';
-    }
-  });
-
-    // Edit profile form submission
-  editProfileForm.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    await handleProfileUpdate();
-  });
-
-  // Add product form submission
-  addProductForm.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    await handleAddProduct();
   });
 }
 
-function openEditModal(user) {
-  document.getElementById('edit-name').value = user.userName;
-  document.getElementById('edit-location').value = user.location || '';
-  document.getElementById('edit-image').value = user.profileImage || '';
-  editModal.style.display = 'block';
+function openEditModal() {
+  if (currentUser) {
+    editNameInput.value = currentUser.userName || '';
+    editEmailInput.value = currentUser.userEmail || '';
+    editLocationInput.value = currentUser.location || '';
+    editError.classList.remove('show');
+    editModal.classList.add('active');
+  }
 }
 
-async function handleProfileUpdate() {
-  const name = document.getElementById('edit-name').value.trim();
-  const location = document.getElementById('edit-location').value.trim();
-  const image = document.getElementById('edit-image').value.trim();
+function openConfirmModal() {
+  confirmModal.classList.add('active');
+}
 
-  if (!name || !location) {
-    showError('Name and location are required');
+function closeModals() {
+  editModal.classList.remove('active');
+  confirmModal.classList.remove('active');
+}
+
+async function handleEditProfile(event) {
+  event.preventDefault();
+  
+  const userName = editNameInput.value.trim();
+  const userEmail = editEmailInput.value.trim();
+  const location = editLocationInput.value.trim();
+  
+  if (!validateProfileData(userName, userEmail)) {
     return;
   }
-
+  
   try {
-    const updatedUser = {
+    const updatedUserData = {
       ...currentUser,
-      userName: name,
-      location: location,
-      profileImage: image || currentUser.profileImage
+      userName,
+      userEmail,
+      location
     };
-
-    // Update in API
-    await updateUser(currentUser.id, updatedUser);
-
-    // Update local storage
+    
+    await updateUser(currentUser.id, updatedUserData);
+    
     if (localStorage.getItem('currentUser')) {
-      localStorage.setItem('currentUser', JSON.stringify(updatedUser));
-    } else if (sessionStorage.getItem('currentUser')) {
-      sessionStorage.setItem('currentUser', JSON.stringify(updatedUser));
+      localStorage.setItem('currentUser', JSON.stringify(updatedUserData));
+    } else {
+      sessionStorage.setItem('currentUser', JSON.stringify(updatedUserData));
     }
-
-    // Update UI
-    currentUser = updatedUser;
-    renderProfile(currentUser);
-    editModal.style.display = 'none';
+    
+    currentUser = updatedUserData;
+    
+    profileName.textContent = userName;
+    profileEmail.textContent = userEmail;
+    profileLocation.textContent = location;
+    
+    closeModals();
+    showToast('Profile updated successfully!');
+    
   } catch (error) {
     console.error('Error updating profile:', error);
     showError('Failed to update profile. Please try again.');
   }
 }
 
-async function handleAddProduct() {
-  const name = document.getElementById('product-name').value.trim();
-  const description = document.getElementById('product-description').value.trim();
-  const price = parseFloat(document.getElementById('product-price').value);
-  const image = document.getElementById('product-image').value.trim();
-
-  if (!name || !description || isNaN(price)) {
-    showError('Please fill all required fields with valid data');
-    return;
+function validateProfileData(userName, userEmail) {
+  editError.classList.remove('show');
+  
+  if (userName.length < 3 || userName.length > 15) {
+    showError('Name must be between 3 and 15 characters long');
+    return false;
   }
+  
+  const emailRegex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,4})+$/;
+  if (!emailRegex.test(userEmail)) {
+    showError('Invalid email format. Example: user@example.com');
+    return false;
+  }
+  
+  return true;
+}
 
+async function handleDeleteAccount() {
   try {
-    const newProduct = {
-      name,
-      description,
-      price: price.toFixed(2),
-      image: image || 'https://via.placeholder.com/200'
-    };
-
-    // In a real app, you would save this to your API
-    // For now, we'll just add it to the local products array
-    if (!currentUser.products) {
-      currentUser.products = [];
-    }
-    currentUser.products.push(newProduct);
-
-    // Update UI
-    renderPrivateProfile(currentUser);
-    addProductModal.style.display = 'none';
-    addProductForm.reset();
+    await deleteUser(currentUser.id);
+    
+    logoutUser();
+    
+    closeModals();
+    showToast('Account deleted successfully!');
+    
+    setTimeout(() => {
+      window.location.href = 'index.html';
+    }, 2000);
+    
   } catch (error) {
-    console.error('Error adding product:', error);
-    showError('Failed to add product. Please try again.');
+    console.error('Error deleting account:', error);
+    showToast('Failed to delete account. Please try again.', 'error');
   }
 }
 
-function logout() {
-  logoutUser();
-  window.location.href = '/auth.html';
+function showLoading() {
+  profileContent.innerHTML = '<div class="loading">Loading profile...</div>';
+}
+
+function hideLoading() {
+  const loading = document.querySelector('.loading');
+  if (loading) {
+    loading.remove();
+  }
 }
 
 function showError(message) {
-  // In a real app, you might have a dedicated error display area
-  alert(message);
+  editError.textContent = message;
+  editError.classList.add('show');
+}
+
+function showToast(message, type = 'success') {
+  const existingToasts = document.querySelectorAll('.toast');
+  existingToasts.forEach(toast => toast.remove());
+  
+  const toast = document.createElement('div');
+  toast.className = `toast ${type}`;
+  toast.textContent = message;
+  
+  document.body.appendChild(toast);
+  
+  setTimeout(() => {
+    toast.classList.add('show');
+  }, 100);
+  
+  setTimeout(() => {
+    toast.classList.remove('show');
+    setTimeout(() => {
+      if (toast.parentNode) {
+        toast.parentNode.removeChild(toast);
+      }
+    }, 400);
+  }, 3000);
 }
