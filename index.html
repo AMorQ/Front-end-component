@@ -3,14 +3,14 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>NABECARAL - Artisan</title>
+    <title>NABECARAL - Artisan - PRUEBA3</title>
+    
     <link rel="stylesheet" href="/src/Styles/reset.css">
     <link rel="stylesheet" href="/src/Styles/navbar.css">
     <link rel="stylesheet" href="/src/Styles/main.css">
     <link rel="stylesheet" href="/src/Styles/footer.css">
     
     <style>          
-        /* Carrusel*/
         #marqueeContainer {
             position: relative;
             width: 100%;
@@ -74,44 +74,53 @@
         }
     </style>
   </head>
+
   <body>
+
     <div class="page-container">
         <div id="marqueeContainer">
             <div id="marqueeBox">
-            </div>            
+            </div>
+            
             <div class="marquee-title">
                 <h1>NABECARAL</h1>
             </div>
         </div>
+
         <div id="app"></div>
     </div>
+
     <script type="module" src="/src/init.js"></script>  
     <script type="module" src="/src/main.js"></script>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+
     <script>
-        function loadSliderImages() {
+        function loadSliderImages() {            
+
             const images = [
-                '/slider/1.jpeg',
+                '/slider/1.jpg',
                 '/slider/2.jpeg',
-                '/slider/3.jpeg',
-                '/slider/4.jpeg',
-                '/slider/5.jpeg',
-                '/slider/6.jpeg',
-                '/slider/8.jpeg',
+                '/slider/3.jpg',
+                '/slider/4.jpg',
+                '/slider/5.jpg',
+                '/slider/6.jpg',
+                '/slider/7.jpeg',
+                '/slider/8.jpg',
                 '/slider/9.jpeg',
-                '/slider/10.jpeg',
-                '/slider/11.jpeg',
-                '/slider/1.webp',
-                '/slider/2.webp',                
-                '/slider/4.webp',
-                '/slider/5.webp',
-                '/slider/6.webp',
-                '/slider/7.webp',
-                '/slider/8.webp',                
-                '/slider/10.webp',
-                '/slider/11.webp',
-                '/slider/12.webp',
-                '/slider/13.webp'
+                '/slider/10.jpg',
+                '/slider/11.jpg',
+                '/slider/12.jpg',
+                '/slider/13.jpg',                
+                '/slider/14.jpg',
+                '/slider/15.jpeg',
+                '/slider/16.jpg',
+                '/slider/17.jpg',
+                '/slider/18.jpg',                
+                '/slider/19.jpg',
+                '/slider/20.jpg',
+                '/slider/21.jpg',
+                '/slider/22.jpg'
             ];
             
             const marqueeBox = document.getElementById('marqueeBox');
@@ -120,7 +129,9 @@
                 console.error('ERROR: No se encontró el elemento marqueeBox');
                 return;
             }
+            
             marqueeBox.innerHTML = '';
+            
             const duplicatedImages = [...images, ...images];
             
             duplicatedImages.forEach(src => {
@@ -129,10 +140,11 @@
                 img.alt = 'Producto artesanal';
                 img.onerror = function() {
                     console.error("Error al cargar imagen:", this.src);
+
                 };
                 marqueeBox.appendChild(img);
-            });            
-
+            });
+                        
             setTimeout(() => {
                 const totalWidth = marqueeBox.scrollWidth / 2;
                 
@@ -147,8 +159,8 @@
                     console.error("ERROR: El ancho total es 0");
                 }
             }, 100);
-        }        
-
+        }
+        
         document.addEventListener('DOMContentLoaded', loadSliderImages);
     </script>
 

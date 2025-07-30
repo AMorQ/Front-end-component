@@ -1,13 +1,10 @@
-// src/utilsfooter.js
 let footerInjected = false;
 
 export function injectFooter() {
-  // Si ya se inyectó el footer, salimos de la función
   if (footerInjected) {
     return;
-  }
-  
-  // Si ya existe un footer en el DOM, no inyectamos otro
+  }  
+
   if (document.getElementById('footer')) {
     footerInjected = true;
     return;
@@ -50,6 +47,5 @@ export function injectFooter() {
   footer.innerHTML = footerHTML;
   document.body.appendChild(footer);
   
-  // Marcamos como inyectado
   footerInjected = true;
 }

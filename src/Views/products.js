@@ -1,13 +1,7 @@
 import { fetchProductImages } from '../API/ApiProducts.js';
-// import { injectFooter } from '../utilsfooter.js';
-
-// document.addEventListener('DOMContentLoaded', () => {
-//   injectFooter();
-
-// });
 
 function createBaseLayout() {
-  const app = document.getElementById('app'); //TO DO have to change the name
+  const app = document.getElementById('app'); 
   app.innerHTML = `
     <input type="text" id="search" placeholder="Search products..." />
     <button id="findBtn">Find</button>
@@ -37,7 +31,6 @@ async function loadCatalog(query = 'handmade') {
     return;
   }
 
-  // saves products?
   localStorage.setItem('allProducts', JSON.stringify(products));
 
   products.forEach(product => {
@@ -49,11 +42,9 @@ async function loadCatalog(query = 'handmade') {
     img.alt = product.name;
 
     clone.querySelector('.name').textContent = product.name;
-    // clone.querySelector('.description').textContent = product.description;
     clone.querySelector('.price').textContent = `$${product.price}`;
 
-  // Add to cart toggle logic with bubbling fix. This is going to be in utils!?
-const addToCartBtn = clone.querySelector('.add-cart-btn');//repeted class in details
+const addToCartBtn = clone.querySelector('.add-cart-btn');
 
 addToCartBtn.addEventListener('click', (e) => {
   e.stopPropagation();
@@ -62,7 +53,6 @@ addToCartBtn.addEventListener('click', (e) => {
   addToCartBtn.disabled = true;
 });
 
-    // Add detailsProduct
     card.addEventListener('click', () => {
       localStorage.setItem('selectedProduct', JSON.stringify(product));
       window.location.href = 'detailsProduct.html';
@@ -72,7 +62,7 @@ addToCartBtn.addEventListener('click', (e) => {
   });
 }
 
-function setupEvents() { // filter
+function setupEvents() { 
   const searchInput = document.getElementById('search');
   const findBtn = document.getElementById('findBtn');
 
@@ -81,7 +71,7 @@ function setupEvents() { // filter
     loadCatalog(query || 'handmade');
   });
 
-  searchInput.addEventListener('keydown', (e) => { // enter same as click
+  searchInput.addEventListener('keydown', (e) => { 
     if (e.key === 'Enter') {
       const query = searchInput.value.trim();
       loadCatalog(query || 'handmade');
@@ -89,8 +79,6 @@ function setupEvents() { // filter
   });
 }
 
-
-//do not forget
 createBaseLayout();
 setupEvents();
 loadCatalog();
