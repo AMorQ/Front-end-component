@@ -3,14 +3,16 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>NABECARAL - Artisan</title>
+    <title>NABECARAL - Artisan - PRUEBA3</title>
+    
+    <!-- Estilos -->
     <link rel="stylesheet" href="/src/Styles/reset.css">
     <link rel="stylesheet" href="/src/Styles/navbar.css">
     <link rel="stylesheet" href="/src/Styles/main.css">
     <link rel="stylesheet" href="/src/Styles/footer.css">
     
     <style>          
-        /* Carrusel*/
+        /* Carrusel solo en la parte superior */
         #marqueeContainer {
             position: relative;
             width: 100%;
@@ -74,44 +76,61 @@
         }
     </style>
   </head>
+
   <body>
+
+    <!-- Contenedor principal con todo el contenido -->
     <div class="page-container">
+        <!-- Carrusel GSAP -->
         <div id="marqueeContainer">
             <div id="marqueeBox">
-            </div>            
+                <!-- Imágenes se añadirán dinámicamente -->
+            </div>
+            
             <div class="marquee-title">
                 <h1>NABECARAL</h1>
             </div>
         </div>
+
+        <!-- Contenedor para el resto del home -->
         <div id="app"></div>
     </div>
+
+    <!-- Scripts de la aplicación -->
     <script type="module" src="/src/init.js"></script>  
     <script type="module" src="/src/main.js"></script>
+
+    <!-- GSAP -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+
     <script>
+        // Función para cargar el carrusel de imágenes con tus archivos locales
         function loadSliderImages() {
+            
+            // LISTA DE TUS IMÁGENES LOCALES EN public/slider/
             const images = [
-                '/slider/1.jpeg',
+                '/slider/1.jpg',
                 '/slider/2.jpeg',
-                '/slider/3.jpeg',
-                '/slider/4.jpeg',
-                '/slider/5.jpeg',
-                '/slider/6.jpeg',
-                '/slider/8.jpeg',
+                '/slider/3.jpg',
+                '/slider/4.jpg',
+                '/slider/5.jpg',
+                '/slider/6.jpg',
+                '/slider/7.jpeg',
+                '/slider/8.jpg',
                 '/slider/9.jpeg',
-                '/slider/10.jpeg',
-                '/slider/11.jpeg',
-                '/slider/1.webp',
-                '/slider/2.webp',                
-                '/slider/4.webp',
-                '/slider/5.webp',
-                '/slider/6.webp',
-                '/slider/7.webp',
-                '/slider/8.webp',                
-                '/slider/10.webp',
-                '/slider/11.webp',
-                '/slider/12.webp',
-                '/slider/13.webp'
+                '/slider/10.jpg',
+                '/slider/11.jpg',
+                '/slider/12.jpg',
+                '/slider/13.jpg',                
+                '/slider/14.jpg',
+                '/slider/15.jpeg',
+                '/slider/16.jpg',
+                '/slider/17.jpg',
+                '/slider/18.jpg',                
+                '/slider/19.jpg',
+                '/slider/20.jpg',
+                '/slider/21.jpg',
+                '/slider/22.jpg'
             ];
             
             const marqueeBox = document.getElementById('marqueeBox');
@@ -120,7 +139,11 @@
                 console.error('ERROR: No se encontró el elemento marqueeBox');
                 return;
             }
+            
+            // Limpiar contenedor
             marqueeBox.innerHTML = '';
+            
+            // Crear imágenes duplicadas para efecto continuo
             const duplicatedImages = [...images, ...images];
             
             duplicatedImages.forEach(src => {
@@ -129,10 +152,14 @@
                 img.alt = 'Producto artesanal';
                 img.onerror = function() {
                     console.error("Error al cargar imagen:", this.src);
+
                 };
                 marqueeBox.appendChild(img);
-            });            
-
+            });
+            
+            // console.log("Imágenes locales añadidas al DOM");
+            
+            // Iniciar animación
             setTimeout(() => {
                 const totalWidth = marqueeBox.scrollWidth / 2;
                 
@@ -147,8 +174,9 @@
                     console.error("ERROR: El ancho total es 0");
                 }
             }, 100);
-        }        
-
+        }
+        
+        // Cargar el carrusel cuando el DOM esté listo
         document.addEventListener('DOMContentLoaded', loadSliderImages);
     </script>
 
