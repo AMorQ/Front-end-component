@@ -110,11 +110,11 @@ function showFallbackImages() {
     if (artistsGrid) {
         const fallbackImages = [
             {
-                image: '/images/artist1.jpg',
+                image: '/slider/10.jpg',
                 name: 'Artist 1'
             },
             {
-                image: '/images/artist2.jpg',
+                image: '/slider/11.jpg',
                 name: 'Artist 2'
             }
         ];
