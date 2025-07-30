@@ -5,14 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>NABECARAL - Artisan - PRUEBA3</title>
     
-    <!-- Estilos -->
     <link rel="stylesheet" href="/src/Styles/reset.css">
     <link rel="stylesheet" href="/src/Styles/navbar.css">
     <link rel="stylesheet" href="/src/Styles/main.css">
     <link rel="stylesheet" href="/src/Styles/footer.css">
     
     <style>          
-        /* Carrusel solo en la parte superior */
         #marqueeContainer {
             position: relative;
             width: 100%;
@@ -79,12 +77,9 @@
 
   <body>
 
-    <!-- Contenedor principal con todo el contenido -->
     <div class="page-container">
-        <!-- Carrusel GSAP -->
         <div id="marqueeContainer">
             <div id="marqueeBox">
-                <!-- Imágenes se añadirán dinámicamente -->
             </div>
             
             <div class="marquee-title">
@@ -92,22 +87,17 @@
             </div>
         </div>
 
-        <!-- Contenedor para el resto del home -->
         <div id="app"></div>
     </div>
 
-    <!-- Scripts de la aplicación -->
     <script type="module" src="/src/init.js"></script>  
     <script type="module" src="/src/main.js"></script>
 
-    <!-- GSAP -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 
     <script>
-        // Función para cargar el carrusel de imágenes con tus archivos locales
-        function loadSliderImages() {
-            
-            // LISTA DE TUS IMÁGENES LOCALES EN public/slider/
+        function loadSliderImages() {            
+
             const images = [
                 '/slider/1.jpg',
                 '/slider/2.jpeg',
@@ -140,10 +130,8 @@
                 return;
             }
             
-            // Limpiar contenedor
             marqueeBox.innerHTML = '';
             
-            // Crear imágenes duplicadas para efecto continuo
             const duplicatedImages = [...images, ...images];
             
             duplicatedImages.forEach(src => {
@@ -156,10 +144,7 @@
                 };
                 marqueeBox.appendChild(img);
             });
-            
-            // console.log("Imágenes locales añadidas al DOM");
-            
-            // Iniciar animación
+                        
             setTimeout(() => {
                 const totalWidth = marqueeBox.scrollWidth / 2;
                 
@@ -176,7 +161,6 @@
             }, 100);
         }
         
-        // Cargar el carrusel cuando el DOM esté listo
         document.addEventListener('DOMContentLoaded', loadSliderImages);
     </script>
 

@@ -2,10 +2,8 @@ import { fetchProductImages } from './API/ApiProducts.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
   
-    // Render home page content
     renderHomePage();
     
-    // Load artist images for the artists grid
     await loadArtistImages();
 
 function renderHomePage() {
@@ -72,20 +70,17 @@ function renderHomePage() {
         </div>
     `;
     
-    // Setup event listeners
     setupEventListeners();
 }
 
 async function loadArtistImages() {
     try {
-        // Obtener más imágenes (10 en este caso)
         const allArtists = await fetchProductImages('artist', 20);
         const artistsGrid = document.getElementById('artists-grid');
         
         if (artistsGrid && allArtists.length > 0) {
             artistsGrid.innerHTML = '';
             
-            // Mezclar el array de artistas y seleccionar 2 aleatorios
             const shuffledArtists = [...allArtists].sort(() => 0.5 - Math.random());
             const selectedArtists = shuffledArtists.slice(0, 2);
             
@@ -100,7 +95,6 @@ async function loadArtistImages() {
         }
     } catch (error) {
         console.error('Error loading artist images:', error);
-        // Opcional: Mostrar imágenes de respaldo si hay error
         showFallbackImages();
     }
 }
@@ -133,7 +127,6 @@ function showFallbackImages() {
 }
 
 function setupEventListeners() {
-    // START SELLING buttons
     const setupButton = (id) => {
         const button = document.getElementById(id);
         if (button) {
@@ -147,7 +140,6 @@ function setupEventListeners() {
     setupButton('startSelling2');
     setupButton('startSelling3');
     
-    // View Products button
     const viewProductsBtn = document.getElementById('viewProducts');
     if (viewProductsBtn) {
         viewProductsBtn.addEventListener('click', () => {
@@ -155,11 +147,10 @@ function setupEventListeners() {
         });
     }
     
-    // View Artisans button (nuevo)
     const viewArtisansBtn = document.getElementById('viewArtisans');
     if (viewArtisansBtn) {
         viewArtisansBtn.addEventListener('click', () => {
-            window.location.href = 'artisans.html'; // Asegúrate de tener esta página
+            window.location.href = 'artisans.html'; 
         });
     }
 }

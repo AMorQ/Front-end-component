@@ -29,13 +29,10 @@ document.addEventListener('DOMContentLoaded', () => {
     </div>
   `;
 
-  // Back button
   document.getElementById('backBtn').addEventListener('click', () => {
     window.location.href = 'product.html';
   });
 
-  // Add to cart logic with feedback and toggle. I dont know if i like this...
-  // there is no memory of the added products now, need the cart logic
   let inCart = false;
   const cartBtn = document.getElementById('addToCartBtn');
 
@@ -46,7 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
       inCart = true;
 
       setTimeout(() => {
-        cartBtn.textContent = 'Remove from cart'; //Maybe, you can only remove the products from the cart, not in the web. Would make more sense
+        cartBtn.textContent = 'Remove from cart';
         cartBtn.disabled = false;
       }, 1500);
     } else {
@@ -55,7 +52,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Related products logic, need to check this later with artisan products
   const allProducts = JSON.parse(localStorage.getItem('allProducts')) || [];
   const relatedProducts = allProducts.filter(p => p.image !== product.image);
 
@@ -100,7 +96,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   renderSuggested();
-//slider
+
   document.querySelector('.arrow.left').addEventListener('click', () => {
     if (startIndex > 0) {
       startIndex -= visibleCount;

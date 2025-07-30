@@ -1,4 +1,3 @@
-// src/navbar.js
 export function injectNavbar() {
   const navbarHTML = `
     <nav id="navbar">
@@ -121,7 +120,6 @@ export function injectNavbar() {
   navbarContainer.innerHTML = navbarHTML;
   document.body.insertBefore(navbarContainer, document.body.firstChild);
   
-  // Initialize mobile menu functionality
   initializeMobileMenu();
 }
 
@@ -135,7 +133,6 @@ function initializeMobileMenu() {
     return;
   }
   
-  // Toggle mobile menu
   function toggleMobileMenu() {
     const isOpen = mobileMenu.classList.contains('active');
     
@@ -160,24 +157,20 @@ function initializeMobileMenu() {
     document.body.style.overflow = '';
   }
   
-  // Event listeners
   hamburgerBtn.addEventListener('click', toggleMobileMenu);
   mobileMenuOverlay.addEventListener('click', closeMobileMenu);
   
-  // Close menu when clicking on menu items
   const mobileMenuItems = document.querySelectorAll('.mobile-menu-item');
   mobileMenuItems.forEach(item => {
     item.addEventListener('click', closeMobileMenu);
   });
   
-  // Close menu on escape key
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && mobileMenu.classList.contains('active')) {
       closeMobileMenu();
     }
   });
   
-  // Close menu on window resize to desktop
   window.addEventListener('resize', () => {
     if (window.innerWidth >= 768 && mobileMenu.classList.contains('active')) {
       closeMobileMenu();
