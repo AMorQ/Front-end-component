@@ -7,7 +7,6 @@ class ShoppingCart {
         this.init();
     }
 
-    // HELPER METHOD FOR CONDITIONAL LOGGING
     log(message, ...args) {
         if (this.debugMode) {
             console.log(message, ...args);
@@ -23,24 +22,20 @@ class ShoppingCart {
         this.initializeDetailProductIntegration();
     }
 
-    // Get current user from localStorage/sessionStorage
     loadCurrentUser() {
         const userFromLocal = localStorage.getItem("currentUser");
         const userFromSession = sessionStorage.getItem("currentUser");
         this.currentUser = userFromLocal ? JSON.parse(userFromLocal) : 
                           userFromSession ? JSON.parse(userFromSession) : null;
         
-        // ONLY LOG IF USER EXISTS
         if (this.currentUser) {
             console.log(`🔐 User loaded: ${this.currentUser.userName}`);
         }
     }
 
-    // Load cart from user's shopping_cart field in MockAPI structure
     loadCartFromUser() {
         if (this.currentUser && this.currentUser.shopping_cart) {
             this.items = this.currentUser.shopping_cart || [];
-            // ONLY LOG IF ITEMS EXIST
             if (this.items.length > 0) {
                 console.log(`🛒 Cart loaded: ${this.items.length} items`);
             }
@@ -49,24 +44,20 @@ class ShoppingCart {
         }
     }
 
-    // Save cart to user's shopping_cart field and update MockAPI
     async saveCartToUser() {
         if (!this.currentUser) {
             return;
         }
 
         try {
-            // Update local user object
             this.currentUser.shopping_cart = this.items;
             
-            // Save to localStorage/sessionStorage
             if (localStorage.getItem("currentUser")) {
                 localStorage.setItem("currentUser", JSON.stringify(this.currentUser));
             } else if (sessionStorage.getItem("currentUser")) {
                 sessionStorage.setItem("currentUser", JSON.stringify(this.currentUser));
             }
 
-            // Update MockAPI using existing updateUser function from userAPI.js
             const { updateUser } = await import('../API/userAPI.js');
             await updateUser(this.currentUser.id, this.currentUser);
             this.log('Cart saved to MockAPI successfully');
@@ -606,7 +597,6 @@ class ShoppingCart {
                 if (this.productRetryCount < 6) { 
                     setTimeout(waitForProducts, 500);
                 } else {
-                    // FALLBACK - TRY TO ADD LISTENERS ANYWAY
                     this.addCartButtonListeners();
                 }
             }
@@ -802,7 +792,6 @@ class ShoppingCart {
     }
 
     updateButtonState(productId, inCart) {
-        // REMOVED DETAILED LOGGING - ONLY LOG ERRORS
         const buttons = document.querySelectorAll('.add-cart-btn');
         
         buttons.forEach(btn => {
@@ -825,7 +814,6 @@ class ShoppingCart {
     }
 
     resetAddToCartButtons() {
-        // SILENT EXECUTION - NO LOGGING
         const buttons = document.querySelectorAll('.add-cart-btn');
         
         buttons.forEach(btn => {
@@ -851,7 +839,6 @@ class ShoppingCart {
     }
 }
 
-// Initialize shopping cart when DOM is ready
 let shoppingCart;
 
 function initShoppingCart() {
