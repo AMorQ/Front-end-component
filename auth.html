@@ -1,0 +1,72 @@
+
+ <!-- NOTE: using auth.html instead of index.html works but it displays localhost:5173/auth.html -->
+<!-- NOTE: RIGHT NOW, THIS IS THE INDEX.HTML (FIRST ENTRY POINT) OF MY PROJECT -->
+<!-- NOTE: - This is the authentication page. IN ITS LANDING VIEW, IT WILL RENDER THE LOGIN FORM -->
+<!-- TODO: REGISTER BUTTON IN HOME -->
+<!-- TODO:- Can I search in the MockAPI not fetching all the information from the DDBB?? -->
+<!-- TODO attention! why is it that I have to click twice to go to my index.html? -->
+ <!-- NOTE: en los html no se puede debuggear -->
+  <!-- NOTE: NOT THE BEST FOR VITE TO USE A NAME DIFFERENT THAN INDEX.HTML AS ENTRY POINT, IM SEEING THE WEBPAGE ADDING AUTH.HTML TO THE LOCAL HOST -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="src/Styles/navbar.css">
+    <link rel="stylesheet" href="src/Styles/auth.css" />
+    <link rel="stylesheet" href="src/Styles/footer.css" />
+    <title>Authentication</title>
+  </head>
+
+  <body>
+    <script type="module" src="/src/init.js"></script>
+    <div class="log-container">
+      <div class="log-header">
+        <h1>Login</h1>
+      </div>
+
+      <form id="login-form">
+        <div class="form-group">
+          <input type="email" placeholder="e-mail" id="login-email" autocomplete="email" required />
+        </div>
+
+        <div class="form-group password">
+          <input
+            type="password"
+            placeholder="password"
+            id="login-password"
+            autocomplete="current-password"
+            required
+          />
+          <button type="button" id="toggle-password">
+            <img id="eye-icon" src="/icons/eyeHide.svg" alt="Show Password" style="width: 0.7rem; height: 0.7rem; cursor: pointer;" />
+            <!--make better styling!-->
+            <!--prefiriría que apareciera en input login-password. DE HECHO SALE TAMBIEN-->
+             <!-- <i id="eye-icon" class="fas fa-eye" aria-label="Show Password"></i> FROM FONT CODES-->
+          </button>
+        </div>
+
+        <div class="form-group remember-me">
+          <input type="checkbox" id="remember-me" />
+          <label for="remember-me">Remember me</label>
+        </div>
+
+        <!-- Contenedor para mostrar mensaje de error -->
+        <div id="login-error" class="error-message"></div>
+
+        <button type="submit" class="btn">Login</button>
+      </form>
+
+      <p class="reg-p">
+        <a href="#" id="register-link" class="reg-link">Create new account</a> if you are
+        not registered yet
+        <!-- This # is a placeholder that means "don't navigate anywhere" - it's an empty anchor-->
+      </p>
+
+    </div>
+
+    <script type="module" src="./src/Views/Auth/auth.js"></script>
+
+  </body>
+</html>

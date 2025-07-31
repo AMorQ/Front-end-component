@@ -1,0 +1,183 @@
+/* Is a mock, not the colours for the web */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  display: flex;
+  font-family: Arial, sans-serif;
+  background-color:#6c2b11;
+  margin: 60px 20px 20px 20px;
+
+}
+
+#app {
+    padding: 50px;
+    margin-top: 60px;
+}
+
+.product-details {
+    background: white;
+    border-radius: 10px;
+    padding: 20px;
+    width: 100%;
+    max-width: 500px;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.product-details img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    border-radius: 6px;
+    margin-bottom: 20px;
+}
+
+.product-details h1 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.product-details p {
+    font-size: 16px;
+    margin-bottom: 15px;
+}
+
+.product-details strong {
+    display: block;
+    font-size: 18px;
+    color: #003e83;
+    margin-bottom: 20px;
+}
+
+button
+ {
+    padding: 10px 20px;
+    border: none;
+    background-color: #003e83;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button {
+    
+    padding: 8px;
+    margin: 10px;
+    box-shadow: 0 2px 10px rgba(245, 242, 242, 0.5);
+    border-radius: 5px;
+    display: flex;
+    background-color: #003e83;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #ffab00;
+}
+
+
+#addToCartBtn:hover,
+#backBtn:hover {
+    background-color: #ffab00;
+}
+
+.actions {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+#backBtn {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+}
+
+.product-details {
+    position: relative;
+}
+
+
+.suggested-title {
+    width: 100%;
+    text-align: center;
+    margin: 40px 0 10px;
+    font-size: 20px;
+    color: #ffab00;
+}
+
+.suggested-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.arrow {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: #ffab00;
+    transition: color 0.2s;
+}
+
+.arrow:hover {
+    color: #003e83;
+}
+
+.suggested-container {
+    display: flex;
+    overflow: hidden;
+    gap: 20px;
+    flex-wrap: nowrap;
+}
+
+.suggested-card {
+    background: white;
+    padding: 10px;
+    border-radius: 8px;
+    width: 180px;
+    text-align: center;
+    flex-shrink: 0;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    cursor: pointer;
+    transition: transform 0.2s;
+    margin-bottom: 20px;
+}
+
+.suggested-card:hover {
+    transform: scale(1.03);
+}
+
+.suggested-card img {
+    width: 100%;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 6px;
+    margin-bottom: 10px;
+}
+
+.see-more button {
+    padding: 10px 15px;
+    border: none;
+    background-color: #003e83;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.see-more button:hover {
+    background-color: #44aaee;
+}
