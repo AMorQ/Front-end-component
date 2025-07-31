@@ -50,7 +50,7 @@ export function injectNavbar() {
               </svg>
               Profile
             </a>
-            <a href="auth.html" class="mobile-menu-item">
+            <a href="auth.html" class="mobile-menu-item" id="mobile-auth-item">
               <svg class="menu-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/>
                 <polyline points="10,17 15,12 10,7"/>
@@ -97,7 +97,7 @@ export function injectNavbar() {
               <circle cx="12" cy="7" r="4"/>
             </svg>
           </a>
-          <a href="auth.html" class="nav-icon" aria-label="Authentication">
+          <a href="auth.html" class="nav-icon" aria-label="Authentication" id="desktop-auth-icon">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/>
               <polyline points="10,17 15,12 10,7"/>
@@ -121,6 +121,9 @@ export function injectNavbar() {
   document.body.insertBefore(navbarContainer, document.body.firstChild);
   
   initializeMobileMenu();
+  setTimeout(() => {
+    updateNavbarForUser();
+  }, 100);
 }
 
 function initializeMobileMenu() {
@@ -176,4 +179,69 @@ function initializeMobileMenu() {
       closeMobileMenu();
     }
   });
+}
+// Function to get current user without import
+function getCurrentUserLocal() {
+  const userFromLocal = localStorage.getItem("currentUser");
+  if (userFromLocal) {
+    return JSON.parse(userFromLocal);
+  }
+  
+  const userFromSession = sessionStorage.getItem("currentUser");
+  if (userFromSession) {
+    return JSON.parse(userFromSession);
+  }
+  
+  return null;
+}
+// Function to logout user without import
+function logoutUserLocal() {
+  localStorage.removeItem("currentUser");
+  sessionStorage.removeItem("currentUser");
+}
+// Function to update navbar based on user login status
+function updateNavbarForUser() {
+  const currentUser = getCurrentUserLocal();
+  
+  if (currentUser) {
+    // Update desktop auth icon
+    const desktopAuthIcon = document.getElementById('desktop-auth-icon');
+    if (desktopAuthIcon) {
+      desktopAuthIcon.setAttribute('href', '#');
+      desktopAuthIcon.setAttribute('aria-label', 'Logout');
+      desktopAuthIcon.innerHTML = `
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+          <polyline points="16,17 21,12 16,7"/>
+          <line x1="21" y1="12" x2="9" y2="12"/>
+        </svg>
+      `;
+      desktopAuthIcon.addEventListener('click', handleLogout);
+    }
+    
+    // Update mobile auth item
+    const mobileAuthItem = document.getElementById('mobile-auth-item');
+    if (mobileAuthItem) {
+      mobileAuthItem.setAttribute('href', '#');
+      mobileAuthItem.innerHTML = `
+        <svg class="menu-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+          <polyline points="16,17 21,12 16,7"/>
+          <line x1="21" y1="12" x2="9" y2="12"/>
+        </svg>
+        Logout (${currentUser.userName})
+      `;
+      mobileAuthItem.addEventListener('click', handleLogout);
+    }
+  }
+}
+// Logout handler
+function handleLogout(event) {
+  event.preventDefault();
+  
+  if (confirm('Are you sure you want to logout?')) {
+    logoutUserLocal();
+    alert('Logged out successfully');
+    window.location.href = '/index.html';
+  }
 }

@@ -2,7 +2,7 @@
 // it handles control to register.js in case the usere is not registered yet
 
 import { setupPasswordToggle } from "../../Utils/utils.js";
-import { getAllUsers } from "../../API/userAPI.js";
+import { getAllUsers, updateUser } from "../../API/userAPI.js";
 import {renderRegisterForm} from "./register.js";
 
 setupPasswordToggle("toggle-password", "login-password", "eye-icon");
@@ -29,25 +29,33 @@ form.addEventListener("submit", async (event) => {
     const users = await getAllUsers();
     //   NOTE: CAN IT BE DONE JUST FETCHING THE DDBB PARTIALLY?
     const currentUser = users.find(
-      (e) => e.userEmail === userEmail && e.password === password
+      (e) => e.userEmail === userEmail && e.userPassword === password
     );
     //Keep the user logged based on "Remember Me" checkbox
     if (currentUser) {
-      currentUser.active = true;
-
+       // Update user status in API database
+      const updatedUserData = { ...currentUser, active: true };
+      
+      try {
+        await updateUser(currentUser.id, updatedUserData);
+        console.log("User status updated in database");
+      } catch (updateError) {
+        console.error("Failed to update user status:", updateError);
+        // Continue with login even if status update fails
+      }
       // Use localStorage (PERSISTANT AFTER BROWSER IS CLOSED) only if "Remember Me" is checked, otherwise use sessionStorage
       if (rememberMe) {
-        localStorage.setItem("currentUser", JSON.stringify(currentUser));
+        localStorage.setItem("currentUser", JSON.stringify(updatedUserData));
       } else {
         // sessionStorage clears when the browser session ends (tab/window closes)
-        sessionStorage.setItem("currentUser", JSON.stringify(currentUser));
+        sessionStorage.setItem("currentUser", JSON.stringify(updatedUserData));
       }
 
       errorDiv.textContent = "";
       alert("Login successful");
       // TODO: toastify?
 
-      // window.location.href = "/index.html";
+       window.location.href = "/index.html";
       // theres not a home, FIXME: Ill create a fake index.html. RIGHT NOW NOT BEING CALLED
     } else {
       errorDiv.textContent = "Incorrect e-mail or password.";

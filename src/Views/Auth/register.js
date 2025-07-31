@@ -81,7 +81,7 @@ export function renderRegisterForm() {
 
     const userName = document.getElementById("register-name").value.trim();
     const userEmail = document.getElementById("register-email").value.trim();
-    const password = document.getElementById("register-password").value;
+    const userPassword = document.getElementById("register-password").value;
     const confirmPassword = document.getElementById("register-confirm-password").value;
 
     let validations = true;
@@ -98,12 +98,12 @@ export function renderRegisterForm() {
     }
 
     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])([A-Za-z\d$@$!%*?&]){8,15}$/;
-    if (!passwordRegex.test(password)) {
+    if (!passwordRegex.test(userPassword)) {
       alert("Invalid password. Must be 8–15 characters, include upper/lowercase, number, and special character.");
       validations = false;
     }
 
-    if (password !== confirmPassword) {
+    if (userPassword !== confirmPassword) {
       alert("Passwords do not match.");
       validations = false;
     }
@@ -112,7 +112,7 @@ export function renderRegisterForm() {
       const userData = {
         userName,
         userEmail,
-        password,
+        userPassword,
       };
 
       await createNewUser(userData);

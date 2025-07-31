@@ -36,8 +36,7 @@ export async function createNewUser(userData) {
       body: JSON.stringify({
         userName: userData.userName,
         userEmail: userData.userEmail,
-        password: userData.userPassword,
-
+        userPassword: userData.userPassword,
       }),
     });
     if (!response.ok) {
@@ -59,4 +58,45 @@ export async function createNewUser(userData) {
 
 }
 
+// Get user by ID
+export async function getUserId(id) {
+  try {
+    const response = await fetch(`${baseUsersUrl}/${id}`);
+    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+    return await response.json();
+  } catch (error) {
+    console.error("Get user error:", error);
+    throw error;
+  }
+}
+
+// Update user
+export async function updateUser(id, userData) {
+  try {
+    const response = await fetch(`${baseUsersUrl}/${id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(userData)
+    });
+    if (!response.ok) throw new Error("Failed to update user");
+    return await response.json();
+  } catch (error) {
+    console.error("Update user error:", error);
+    throw error;
+  }
+}
+
+// Delete user
+export async function deleteUser(id) {
+  try {
+    const response = await fetch(`${baseUsersUrl}/${id}`, {
+      method: "DELETE"
+    });
+    if (!response.ok) throw new Error("Failed to delete user");
+    return await response.json();
+  } catch (error) {
+    console.error("Delete user error:", error);
+    throw error;
+  }
+}
 
